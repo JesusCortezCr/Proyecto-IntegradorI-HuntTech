@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de cliente</title>
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1>Registro de cliente</h1>
+        <div class="contenedor-registro-usuario">
+            <form th:action="@{/register}" th:object="${usuario}" method="post">
+                <input type="text" th:field="*{nombre}" placeholder="Ingrese nombre" required>
+                <br>
+                <input type="text" th:field="*{apellido}" placeholder="Ingrese apellido" required>
+                <br>
+                <input type="password" th:field="*{password}" placeholder="Ingrese contraseña" required>
+                <br>
+                <input type="email" th:field="*{email}" placeholder="Ingrese su correo" required>
+                <br>
+                <input type="text" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required>
+                <br>
+                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa (XLR90, ACT03, PXT87)" required>
+                <br>
+                <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+                <button type="submit">Registrar</button>
+            </form>
+            <p>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión</a></p>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>

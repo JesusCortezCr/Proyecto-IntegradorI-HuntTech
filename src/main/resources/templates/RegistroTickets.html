@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="contenedor-registro">
+            <div class="contenedor-ticket">
+                <form th:action="@{/tickets/guardar}" method="post" th:object="${ticket}">
+                    <!-- Campo oculto para el estado (siempre será "En Espera") -->
+                    <h3>Empresa : <span></span> </h3>
+                    <!-- Dirección con formato específico -->
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección (Formato: SJL-UTP-A0304):</label>
+                        <input type="text" class="form-control" id="direccion" th:field="*{direccion}"
+                            pattern="[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}" title="El formato debe ser: SJL-UTP-A0304" required>
+                    </div>
+                    <!-- Prioridad -->
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label">Prioridad:</label>
+                        <select class="form-select" id="prioridad" required>
+                            <option value="">Seleccione una prioridad</option>
+                            <option>Normal</option>
+                            <option>Alta</option>
+                            <option>Urgente</option>
+                        </select>
+                    </div>
+                    <!-- Categoría -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoría de la solicitud:</label>
+                        <select class="form-select" id="categoria" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option>Hardware</option>
+                            <option>Software</option>
+                            <option>Redes</option>
+                            <option>Soporte Tecnico</option>
+                            <option>Consultas</option>
+                        </select>
+                    </div>
+                    <!-- Estado (solo lectura) -->
+                    <div class="mb-3">
+                        <label class="form-label">Estado:</label>
+                        <span class="form-control-plaintext">En Espera</span>
+                    </div>
+                    <!--
+                    
+                    <label for="">
+                        ID DEL DISPOSITIVO :
+                        <input type="number" min="0" max="100" step="1" value="0">
+                    </label>
+                    -->
+                    <div class="mb-3">
+                        <label for="dispositivo" class="form-label">Dispositivo:</label>
+                        <select class="form-select" id="dispositivo" required>
+                            <option value="">Seleccione un dispositivo</option>
+                            <option>Laptop</option>
+                            <option>Desktop</option>
+                            <option>Impresora</option>
+                            <option>Telefono</option>
+                            <option>Tablet</option>
+                            <option>Servidor</option>
+                            <option>Switch</option>
+                            <option>Router</option>
+                        </select>
+                    </div>
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción del problema:
+                            <br>
+                            <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="5"
+                                required></textarea>
+                        </label>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">Generar Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+
+</html>
