@@ -43,24 +43,32 @@ public class TicketServiceImpl implements TicketService {
     private TipoPrioridadRepository tipoPrioridadRepository;
 
     @Override
-    public List<TipoPrioridad> obtenerTodasLasPrioridades() {
-        return tipoPrioridadRepository.findAll();
+    public Dispositivo obtenerDispositivoPorId(Long id) {
+        return dispositivoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Dispositivo no encontrado"));
     }
 
     @Override
-    public List<CategoriaSolicitud> obtenerTodasLasCategorias() {
-        return categoriaSolicitudRepository.findAll();
+    public CategoriaSolicitud obtenerCategoriaPorId(Long id) {
+        return categoriaSolicitudRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
     }
 
     @Override
-    public List<Dispositivo> obtenerTodosLosDispositivos() {
-        return dispositivoRepository.findAll();
-
+    public TipoPrioridad obtenerPrioridadPorId(Long id) {
+        return tipoPrioridadRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prioridad no encontrada"));
     }
 
     @Override
     public void guardarTicket(Ticket ticket) {
-         ticketRepository.save(ticket);
+        ticketRepository.save(ticket);
+    }
+
+    @Override
+    public Estado obtenerEstadoPorNombre(String nombre) {
+        return estadoRepository.findByNombre(nombre)
+                .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nombre));
     }
 
 }
