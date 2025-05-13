@@ -76,51 +76,6 @@ h1::after {
   position: relative;
 }
 
-.tickets-container::before {
-  content: "";
-  flex: 0 0 250px;
-  height: 300px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px var(--shadow);
-  position: sticky;
-  top: 20px;
-  align-self: flex-start;
-}
-
-
-.tickets-container::before {
-  content: "";
-  position: relative;
-  padding: 1rem;
-}
-
-.tickets-container::after {
-  content: "UTP";
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  background-color: #c00;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  z-index: 1;
-}
-
-
-.tickets-container::before {
-  content: "\A\A\A\A nombre: JESUS EDUARDO\A Apellido: CORTEZ RAMOS\A Email: jesus@gmail.com\A EMPRESA: UTP\A DNI: 1412421";
-  white-space: pre;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.8;
-  padding-top: 80px; 
-}
 
 .ticket-card {
   flex: 1;
