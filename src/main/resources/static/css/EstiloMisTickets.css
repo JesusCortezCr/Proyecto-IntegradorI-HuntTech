@@ -1,0 +1,317 @@
+
+:root {
+  --primary-color: #3a6259; 
+  --secondary-color: #c9a55c; 
+  --background-color: #e6d7b0; 
+  --dark-accent: #3c3224; 
+  --light-text: #ffffff;
+  --shadow: rgba(60, 50, 36, 0.2);
+  --border-color: #e0e0e0;
+  --status-pending: #f39c12;
+  --status-completed: #2ecc71;
+  --status-cancelled: #e74c3c;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--dark-accent);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233a6259' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+body::before {
+  content: "";
+  display: block;
+  height: 50px;
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  box-shadow: 0 2px 10px var(--shadow);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin: 1.5rem 0;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--secondary-color);
+}
+
+[th\:fragment="content"] {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.tickets-container {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+
+.tickets-container::before {
+  content: "";
+  flex: 0 0 250px;
+  height: 300px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px var(--shadow);
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+
+.tickets-container::before {
+  content: "";
+  position: relative;
+  padding: 1rem;
+}
+
+.tickets-container::after {
+  content: "UTP";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #c00;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+
+.tickets-container::before {
+  content: "\A\A\A\A nombre: JESUS EDUARDO\A Apellido: CORTEZ RAMOS\A Email: jesus@gmail.com\A EMPRESA: UTP\A DNI: 1412421";
+  white-space: pre;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+  padding-top: 80px; 
+}
+
+.ticket-card {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 5px var(--shadow);
+  margin-bottom: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.ticket-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.ticket-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.3rem;
+  padding: 0.8rem 1rem 0;
+}
+
+.ticket-empresa {
+  font-weight: 500;
+  color: var(--dark-accent);
+  margin-bottom: 0.8rem;
+  padding: 0 1rem 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ticket-detail {
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
+}
+
+.ticket-label {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2d4d47;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}
+
+.botones form + button,
+
+
+.ticket-detail:nth-child(4) span:nth-child(2) {
+  color: var(--status-pending);
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ticket-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@media (max-width: 992px) {
+  .tickets-container {
+    flex-direction: column;
+  }
+
+  .tickets-container::before {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    height: auto;
+    padding-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .botones {
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    flex: 1 1 calc(50% - 0.4rem);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .botones {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .tickets-container::before {
+    padding-top: 70px;
+  }
+
+  .tickets-container::after {
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+  }
+}
+
+
+.tickets-container > .ticket-card {
+  margin-left: auto;
+  width: calc(100% - 270px);
+}
+
+
+@media (max-width: 992px) {
+  .tickets-container > .ticket-card {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+
+.botones::after {
+  content: "Generar reporte";
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border: none;
+}
+
+h1 {
+  text-transform: uppercase;
+}
