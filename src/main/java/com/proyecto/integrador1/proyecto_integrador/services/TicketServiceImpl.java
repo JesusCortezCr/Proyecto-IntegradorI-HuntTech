@@ -2,6 +2,7 @@ package com.proyecto.integrador1.proyecto_integrador.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -69,6 +70,39 @@ public class TicketServiceImpl implements TicketService {
     public Estado obtenerEstadoPorNombre(String nombre) {
         return estadoRepository.findByNombre(nombre)
                 .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + nombre));
+    }
+
+    @Override
+    public List<Ticket> obtenerTicketsPorUsuario(Usuario usuario) {
+        return ticketRepository.findByUsuario(usuario);
+    }
+
+    @Override
+    public Optional<Ticket> obtenerTicketPorId(Long id) {
+        return ticketRepository.findById(id);
+    }
+
+    @Override
+    public void actualizarTicket(Long id, Ticket tickeckActualizado) {
+        Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+        Ticket ticketExistente = ticketOptional
+                .orElseThrow(() -> new RuntimeException("Ticket no encontrado con ID: " + id));
+
+        ticketExistente.setDescripcion(tickeckActualizado.getDescripcion());
+        ticketExistente.setDireccion(tickeckActualizado.getDireccion());
+        ticketExistente.setFechaHoraSolicitudTicket(LocalDateTime.now());
+        ticketExistente.setUsuario(tickeckActualizado.getUsuario());
+        ticketExistente.setDispositivo(tickeckActualizado.getDispositivo());
+        ticketExistente.setCategoria(tickeckActualizado.getCategoria());
+        ticketExistente.setPrioridad(tickeckActualizado.getPrioridad());
+        ticketExistente.setEstado(tickeckActualizado.getEstado());
+        ticketRepository.save(ticketExistente);
+
+    }
+
+    @Override
+    public void eliminarPorId(Long id) {
+        ticketRepository.deleteById(id);
     }
 
 }

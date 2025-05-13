@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="/css/EstiloLoginCliente.css" rel="stylesheet" th:href="@{/css/EstiloLoginCliente.css}">
 </head>
 <body>
     <header></header>
     <main>
+        <h1>Inicio de Sesion</h1>
         <div class="contenedor-login-cliente">
             <form th:action="@{/login}" method="post">
                 <div th:if="${param.error}" style="color: red;">
@@ -19,9 +21,12 @@
                 <div th:if="${param.success}" style="color: green;">
                     Registro exitoso! Por favor inicia sesión
                 </div>
-                <input type="email" name="username" placeholder="Correo electrónico" required />
-                <input type="password" name="password" placeholder="Contraseña" required />
+                <input type="email" name="username" placeholder="Correo electrónico" required autocomplete="off" />
+                <br>
+                <input type="password" name="password" placeholder="Contraseña" required autocomplete="off" />
+                <br>
                 <button type="submit">Ingresar</button>
+                <br>
                 <a th:href="@{/register}">Registrarse</a>
             </form>
         </div>

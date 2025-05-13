@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de cliente</title>
+        <link href="/css/EstiloRegistroCliente.css" rel="stylesheet" th:href="@{/css/EstiloRegistroCliente.css}">
+
 </head>
 <body>
     <header></header>
@@ -11,17 +13,17 @@
         <h1>Registro de cliente</h1>
         <div class="contenedor-registro-usuario">
             <form th:action="@{/register}" th:object="${usuario}" method="post">
-                <input type="text" th:field="*{nombre}" placeholder="Ingrese nombre" required>
+                <input type="text" th:field="*{nombre}" placeholder="Ingrese nombre" required autocomplete="off">
                 <br>
-                <input type="text" th:field="*{apellido}" placeholder="Ingrese apellido" required>
+                <input type="text" th:field="*{apellido}" placeholder="Ingrese apellido" required autocomplete="off">
                 <br>
-                <input type="password" th:field="*{password}" placeholder="Ingrese contraseña" required>
+                <input type="password" th:field="*{password}" placeholder="Ingrese contraseña" required autocomplete="off">
                 <br>
-                <input type="email" th:field="*{email}" placeholder="Ingrese su correo" required>
+                <input type="email" th:field="*{email}" placeholder="Ingrese su correo" required autocomplete="off">
                 <br>
-                <input type="text" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required>
+                <input type="text" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required autocomplete="off">
                 <br>
-                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa (XLR90, ACT03, PXT87)" required>
+                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa (XLR90, ACT03, PXT87)" required autocomplete="off">
                 <br>
                 <div th:if="${error}" th:text="${error}" style="color: red;"></div>
                 <button type="submit">Registrar</button>

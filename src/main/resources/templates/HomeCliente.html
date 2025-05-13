@@ -112,19 +112,10 @@
                 <h2>¿Listo para comenzar?</h2>
                 <p>Gestiona tus tickets de soporte técnico de manera eficiente con nuestra plataforma</p>
                 <div class="cta-buttons">
-                    <a th:href="@{/tickets/nuevo}" class="btn btn-primary btn-lg">Crear Nuevo Ticket</a>
-                    <a th:href="@{/tickets}" class="btn btn-outline-primary btn-lg">Ver Mis Tickets</a>
+                    <a th:href="@{/generar-ticket}" class="btn btn-primary btn-lg">Crear Nuevo Ticket</a>
+                    <a th:href="@{/mis-tickets}" class="btn btn-outline-primary btn-lg">Ver Mis Tickets</a>
                 </div>
             </div>
-        </div>
-
-        <!-- Botón de cerrar sesión -->
-        <div class="logout-section text-center mt-5">
-            <form th:action="@{/logout}" method="post">
-                <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                </button>
-            </form>
         </div>
     </th:block>
     <th:block th:fragment="script">
