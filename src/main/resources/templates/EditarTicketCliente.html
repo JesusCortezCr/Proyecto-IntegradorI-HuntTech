@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Ticket</title>
+    <link href="/css/EstiloEditarTicket.css" rel="stylesheet" th:href="@{/css/EstiloEditarTicket.css}">
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="contenedor-registro" th:if="${usuario}">
+            <div class="contenedor-ticket">
+                <form th:action="@{/editar-ticket/{id}(id=${ticket.id})}" method="post" th:object="${ticket}">
+                    <h1>EDITAR TICKET</h1>
+                    <!-- Campo oculto para el estado (siempre será "En Espera") -->
+                    <h3>Empresa : <span th:text="${ticket.usuario.empresa.nombreEmpresa}"></span> </h3>
+                    <!-- Dirección con formato específico -->
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección (Formato: SJL-UTP-A0304):</label>
+                        <input type="text" name="direccion" class="form-control" id="direccion" th:field="*{direccion}"
+                            pattern="[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}" title="El formato debe ser: SJL-UTP-A0304" required>
+                    </div>
+                    <!-- Prioridad -->
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label">Prioridad:</label>
+                        <select name="prioridadId" class="form-select" id="prioridad" required>
+                            <option>Seleccione una prioridad</option>
+
+                            <option value="1">Normal</option>
+                            <option value="2">Alta</option>
+                            <option value="3">Urgente</option>
+
+                        </select>
+                    </div>
+                    <!-- Categoría -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoría de la solicitud:</label>
+                        <select name="categoriaId" class="form-select" id="categoria" required>
+                            <option value="">Seleccione una categoría</option>
+
+                            <option value="1">Hardware</option>
+                            <option value="2">Software</option>
+                            <option value="3">Redes</option>
+                            <option value="4">Soporte Tecnico</option>
+                            <option value="5">Consultas</option>
+                        </select>
+                    </div>
+                    <!-- Estado (solo lectura) -->
+                    <div class="mb-3">
+                        <label class="form-label">Estado:</label>
+                        <span class="form-control-plaintext">En Espera</span>
+                    </div>
+                    <!--
+                    
+                    <label for="">
+                        ID DEL DISPOSITIVO :
+                        <input type="number" min="0" max="100" step="1" value="0">
+                    </label>
+                    -->
+                    <div class="mb-3">
+                        <label for="dispositivo" class="form-label">Dispositivo:</label>
+                        <select name="dispositivoId" class="form-select" id="dispositivo" required>
+                            <option value="">Seleccione un dispositivo</option>
+                            <option value="1">Laptop</option>
+                            <option value="2">Desktop</option>
+                            <option value="3">Impresora</option>
+                            <option value="4">Telefono</option>
+                            <option value="5">Tablet</option>
+                            <option value="6">Servidor</option>
+                            <option value="7">Switch</option>
+                            <option value="8">Router</option>
+                        </select>
+                    </div>
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción del problema:
+                            <br>
+                            <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="5"
+                                required></textarea>
+                        </label>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">Realizar cambios</button>
+                        <br>
+                        <a th:href="@{/mis-tickets}" class="btn btn-secondary">Atrás</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div th:fragment="script">
+            <link href="/css/EstiloEditarTicket.css" rel="stylesheet" th:href="@{/css/EstiloEditarTicket.css}">
+        </div>
+</body>
+
+</html>
