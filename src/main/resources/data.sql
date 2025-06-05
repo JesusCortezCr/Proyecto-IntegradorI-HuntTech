@@ -34,3 +34,35 @@ INSERT IGNORE INTO TIPO_PRIORIDAD (NOMBRE_TIPO_PRIORIDAD) VALUES
 ('Normal'),
 ('Alta'),
 ('Urgente');
+
+INSERT INTO usuarios (
+    NOMBRE_USUARIO,
+    apellido,
+    email_usuario,
+    password_usuario,
+    dni,
+    rol_id,
+    empresa_id
+) VALUES (
+    'Jesus',
+    'Cortez',
+    'jcortez@gmail.com',
+    '$2a$10$zpwmWV4RXXIo54Ed7LWacOSxJcj.u5R5x5qJpCMEgusNFfo3KwIXe',
+    '72851172',
+    2,
+    1
+),('Yvan',
+    'Sodani',
+    'sodani@gmail.com',
+    '$2a$10$8YxCIiSJ1sne4ZUQ8q.DgON0zlMqRDus2XiBQWQWw15m2VTHmbVwS',
+    '72221171',
+    2,
+    2
+),('Lucero',
+    'Altamirano',
+    'lucero@gmail.com',
+    '$2a$10$zpwmWV4RXXIo54Ed7LWacOSxJcj.u5R5x5qJpCMEgusNFfo3KwIXe',
+    '721421416',
+    2,
+    3
+);

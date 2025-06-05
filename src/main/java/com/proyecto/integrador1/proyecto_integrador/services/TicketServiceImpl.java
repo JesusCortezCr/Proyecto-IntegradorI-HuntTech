@@ -105,4 +105,14 @@ public class TicketServiceImpl implements TicketService {
         ticketRepository.deleteById(id);
     }
 
+    @Override
+    public List<Ticket> obtenerTodosTicketsPorUniversidad(String nombreUniversidad) {
+        return ticketRepository.obtenerTodosTicketsPorUniversidad(nombreUniversidad);
+    }
+
+    @Override
+    public List<Ticket> obtenerTicketsOrdenadosPorPrioridad(String universidad) {
+        return ticketRepository.obtenerTicketOrdenadosPorPrioridad(universidad);
+    }
+
 }

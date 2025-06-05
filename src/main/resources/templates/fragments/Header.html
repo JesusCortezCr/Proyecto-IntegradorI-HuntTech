@@ -7,11 +7,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_CLIENTE'}">
                     <a class="nav-link active" aria-current="page" th:href="@{/generar-ticket}">Generar Solicitud</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_CLIENTE'}">
                     <a class="nav-link" th:href="@{/mis-tickets}">Mis Solicitudes</a>
+                </li>
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_ADMINISTRADOR'}">
+                    <a class="nav-link" th:href="@{/tickets-administrador}">Tickets Generados</a>
+                </li>
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_ADMINISTRADOR'}">
+                    <a class="nav-link" th:href="@{/mis-tickets}">Generar informes</a>
+                </li>
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_ADMINISTRADOR'}">
+                    <a class="nav-link" th:href="@{/mi-empresa}">Mi Empresa</a>
                 </li>
                 <!--
                 

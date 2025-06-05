@@ -23,7 +23,7 @@
                 <br>
                 <input type="text" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required autocomplete="off">
                 <br>
-                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa (XLR90, ACT03, PXT87)" required autocomplete="off">
+                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa " required autocomplete="off">
                 <br>
                 <div th:if="${error}" th:text="${error}" style="color: red;"></div>
                 <button type="submit">Registrar</button>

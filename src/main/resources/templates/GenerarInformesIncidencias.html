@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Informes incidencias</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="contenedor-registro" th:if="${usuario}">
+            <div class="contenedor-informe">
+              <h1>Generar Informe de incidencia</h1>
+              <br>
+              <div class="contenedor-ticket">
+                  <h2>Ticket</h2>
+                 <h3>ID TICKET : <b th:text="${ticket.id}"></b></h3>
+                    <h3>Descripcion</h3>
+                    <p th:text="${ticket.descripcion}"></p>
+                    <h3>Categoria incidencia</h3>
+                    <p th:text="${ticket.categoria.nombre}"></p>
+                    <h3>Dispositivo:</h3>
+                    <p th:text="${ticket.dispositivo.nombre}"></p>
+              </div>
+              <form th:action="@{/generar-informe/{id}(id=${ticket.id})}" method="post" th:object="${informe}">
+                  <h3>Titulo solucion de incidencia</h3>
+                  <input type="text" th:field="*{titulo}" id="tituloIncidencia" placeholder="Ingrese Titulo">
+                  <h3>Añadir Solucion</h3>
+                  <textarea th:field="*{descripcion}" placeholder="Describa la solución"></textarea>
+                  <br>
+                  <button type="submit">Generar</button>
+              </form>
+              <br>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

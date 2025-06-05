@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,8 +31,10 @@ public class InformeIncidencia {
     @Column(name = "DESCRIPCION_INFORME", nullable = false, length = 2000)
     private String descripcion;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "TICKET_ID", nullable = false)
     private Ticket ticket;
+
+    private String titulo;
 
 }

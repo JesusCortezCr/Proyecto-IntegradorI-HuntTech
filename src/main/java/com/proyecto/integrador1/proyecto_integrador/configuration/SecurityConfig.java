@@ -20,7 +20,7 @@ import com.proyecto.integrador1.proyecto_integrador.entities.Usuario;
 import com.proyecto.integrador1.proyecto_integrador.repositories.UsuarioRepository;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //habilita la seguridad para una aplicacion web
 public class SecurityConfig {
 
     @Autowired
