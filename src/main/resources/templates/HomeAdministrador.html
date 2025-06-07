@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina Administrador</title>
+</head>
+<body>
+    <th:block th:fragment="content">
+<div class="welcome-section" th:if="${usuario}">
+            <div class="user-profile">
+                <div class="company-logo">
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD TECNOLOGICA DEL PERU'}">
+                        <img th:src="@{/IMG/utplogo.png}" alt="Logo UTP" class="img-fluid company-logo-img">
+                    </div>
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD PRIVADA DEL NORTE'}">
+                        <img th:src="@{/IMG/upnlogo.png}" alt="Logo UPN" class="img-fluid company-logo-img">
+                    </div>
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD CESAR VALLEJO'}">
+                        <img th:src="@{/IMG/logoucv.jpg}" alt="Logo UCV" class="img-fluid company-logo-img">
+                    </div>
+                </div>
+
+                <div class="user-info">
+                    <h1 class="welcome-title">Bienvenido, <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span>!</h1>
+                    <div class="user-details">
+                        <p><strong>Nombre completo:</strong> <span
+                                th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></p>
+                        <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+                        <p><strong>Empresa:</strong> <span th:text="${usuario.empresa.nombreEmpresa}"></span></p>
+                        <p><strong>Rol:</strong> <span th:text="${usuario.rol.nombre}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="script">
+        <link href="/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">
+        <!-- si quieres incluir scripts adicionales también puedes hacerlo aquí -->
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Informes incidencias</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.8em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        input.invalid,
+        textarea.invalid {
+            border-color: red;
+        }
+
+        input.valid,
+        textarea.valid {
+            border-color: green;
+        }
+
+        .contenedor-informe {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .contenedor-ticket {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #tituloIncidencia,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="contenedor-registro" th:if="${usuario}">
+            <div class="contenedor-informe">
+                <h1>Generar Informe de incidencia</h1>
+                <br>
+                <div class="contenedor-ticket">
+                    <h2>Ticket</h2>
+                    <h3>ID TICKET : <b th:text="${ticket.id}"></b></h3>
+                    <h3>Descripcion</h3>
+                    <p th:text="${ticket.descripcion}"></p>
+                    <h3>Categoria incidencia</h3>
+                    <p th:text="${ticket.categoria.nombre}"></p>
+                    <h3>Dispositivo:</h3>
+                    <p th:text="${ticket.dispositivo.nombre}"></p>
+                </div>
+                <form id="informeForm" th:action="@{/generar-informe/{id}(id=${ticket.id})}" method="post"
+                    th:object="${informe}" onsubmit="return validarFormulario()">
+                    <h3>Titulo solución de incidencia</h3>
+                    <input type="text" th:field="*{titulo}" id="tituloIncidencia" placeholder="Ingrese Titulo" required
+                        minlength="5" maxlength="100">
+                    <div id="tituloError" class="error-message">El título debe tener entre 5 y 100 caracteres</div>
+
+                    <h3>Añadir Solución</h3>
+                    <textarea th:field="*{descripcion}" id="solucion" placeholder="Describa la solución" required
+                        minlength="20" maxlength="1000"></textarea>
+                    <div id="solucionError" class="error-message">La solución debe tener entre 20 y 1000 caracteres
+                    </div>
+                    <br>
+                    <button type="submit">Generar</button>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configurar event listeners para validación en tiempo real
+            document.getElementById('tituloIncidencia').addEventListener('input', validarTitulo);
+            document.getElementById('solucion').addEventListener('input', validarSolucion);
+        });
+
+        function validarTitulo() {
+            const titulo = document.getElementById('tituloIncidencia');
+            const error = document.getElementById('tituloError');
+
+            if (titulo.value.length < 5 || titulo.value.length > 100) {
+                titulo.classList.add('invalid');
+                titulo.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                titulo.classList.add('valid');
+                titulo.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarSolucion() {
+            const solucion = document.getElementById('solucion');
+            const error = document.getElementById('solucionError');
+
+            if (solucion.value.length < 20 || solucion.value.length > 1000) {
+                solucion.classList.add('invalid');
+                solucion.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                solucion.classList.add('valid');
+                solucion.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarFormulario() {
+            const valido = validarTitulo() & validarSolucion();
+
+            if (!valido) {
+                // Mostrar todos los errores si hay campos inválidos
+                const campos = ['tituloIncidencia', 'solucion'];
+                campos.forEach(campo => {
+                    const input = document.getElementById(campo);
+                    if (input.classList.contains('invalid')) {
+                        document.getElementById(`${campo}Error`).style.display = 'block';
+                    }
+                });
+
+                // Enfocar el primer campo con error
+                const primerError = document.querySelector('.invalid');
+                if (primerError) {
+                    primerError.focus();
+                }
+
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>

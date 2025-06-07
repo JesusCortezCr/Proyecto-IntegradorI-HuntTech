@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Empresa</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <h1>Mi Empresa</h1>
+        <div th:if="${usuario}">
+            <div class="logo-empresa">
+                <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD TECNOLOGICA DEL PERU' }">
+                    <img th:src="@{/IMG/utplogo.png}" alt="Logo UTP" class="img-fluid company-logo-img">
+                </div>
+                <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD PRIVADA DEL NORTE'}">
+                    <img th:src="@{/IMG/upnlogo.png}" alt="Logo UPN" class="img-fluid company-logo-img">
+                </div>
+                <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD CESAR VALLEJO'}">
+                    <img th:src="@{/IMG/logoucv.jpg}" alt="Logo UCV" class="img-fluid company-logo-img">
+                </div>
+            </div>
+            <div class="empresa-info">
+                <h2>Informacion de la empresa: <b th:text="${usuario.empresa.nombreEmpresa}"></b></h2>
+                <h3>RUC: <b th:text="${usuario.empresa.rucEmpresa}"></b></h3>
+                <h3>Estado Empresa : <b th:if="${usuario.empresa.estadoEmpresa == true}">ACTIVO</b></h3>
+                <form th:action="@{/mi-empresa}" method="post">
+                    <h3>Código Empresa :</h3>
+                    <!--//el name manda al controlador el valor-->
+                    <input type="text" name="codigoEmpresa" th:value="${usuario.empresa.codigoEmpresa}"
+                        id="codigoEmpresa">
+                    <button type="submit">Guardar código</button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

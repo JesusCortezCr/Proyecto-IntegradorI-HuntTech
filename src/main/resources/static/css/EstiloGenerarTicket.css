@@ -1,0 +1,119 @@
+.contenedor-registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: linear-gradient(to bottom right, #f9f7f3, #ece6dd);
+    min-height: 100vh;
+}
+
+/* Tarjeta central */
+.contenedor-ticket {
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 500px;
+    background-color: #fefcf8;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(55, 125, 113, 0.15); /* verde agua oscuro suave */
+    border: 1px solid #d8c3a5; /* marrón claro */
+}
+
+/* Títulos */
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #377d71; /* verde agua oscuro */
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #555;
+    text-align: right;
+}
+
+/* Etiquetas */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 10   px;
+    margin-top: 15px;
+    color: #4e4e4e;
+}
+
+/* Inputs y selects */
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d8c3a5;
+    border-radius: 10px;
+    background-color: #fcfbf9;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    color: #333;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #377d71;
+    outline: none;
+}
+
+/* Área de texto */
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d8c3a5;
+    border-radius: 10px;
+    background-color: #fcfbf9;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Texto solo lectura */
+.form-control-plaintext {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f3f1ed;
+    width: 100%;
+    border-radius: 8px;
+    color: #555;
+}
+
+/* Botones */
+button.btn {
+    background-color: #377d71; /* verde agua oscuro */
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button.btn:hover {
+    background-color: #2e645b;
+}
+
+/* Enlaces dentro del botón */
+button.btn a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Contenedor de botones */
+.d-grid {
+    margin-top: 20px;
+    text-align: right;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets Generados</title>
+</head>
+
+<body>
+    <th:block th:fragment="content">
+        <h1>Tickets Generados</h1>
+        <div style="margin-bottom: 20px;">
+            <a class="btn btn-primary" th:href="@{/tickets-administrador(orden='prioridad')}">Ordenar por Prioridad</a>
+        </div>
+
+        <div class="tickets-container" th:if="${tickets}">
+            <div class="ticket-card" th:each="ticket : ${tickets}">
+                <div class="ticket-title" th:text="'Numero de solicitud : ' + ${ticket.id}">Ticket #</div>
+                <div class="ticket-empresa" th:text="'Empresa : ' + ${ticket.usuario.empresa.nombreEmpresa}">Empresa
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Fecha y Hora solicitud:</span>
+                    <span
+                        th:text="${#temporals.format(ticket.fechaHoraSolicitudTicket, 'dd/MM/yyyy HH:mm')}">12/05/2025</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Estado:</span>
+                    <span th:text="${ticket.estado.nombre}">En Espera</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Direccion:</span>
+                    <span th:text="${ticket.direccion}">En Espera</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Prioridad:</span>
+                    <span th:text="${ticket.prioridad.nombre}">En Espera</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Descripcion:</span>
+                    <span th:text="${ticket.descripcion}">Pantalla rota</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Cliente:</span>
+                    <span th:text="${ticket.usuario.nombre} +' '+${ticket.usuario.apellido}">Pantalla rota</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Categoria de solicitud :</span>
+                    <span th:text="${ticket.categoria.nombre}">Pantalla rota</span>
+                </div>
+                <div class="ticket-detail">
+                    <span class="ticket-label">Dispositivo:</span>
+                    <span th:text="${ticket.dispositivo.nombre}">Laptop</span>
+                </div>
+                <div class="botones">
+                    <div th:if="${ticket.estado.nombre}=='En Espera'">
+                        <a th:href="@{/rechazar-ticket/{id}(id=${ticket.id})}" class="btn btn-danger"
+                            onclick="return confirmarAccion('¿Estás seguro de que deseas rechazar este ticket?');">Rechazar</a>
+
+                        <a th:href="@{/resolver-ticket/{id}(id=${ticket.id})}" class="btn btn-primary"
+                            onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resuelto</a>
+                        <form th:action="@{/prioridad-ticket/{id}(id=${ticket.id})}" method="get">
+                            <select name="prioridadId" class="form-select"
+                                th:attr="onchange='mostrarBotonGuardar(' + ${ticket.id} + ')'"
+                                th:id="'prioridad-' + ${ticket.id}">
+                                <option value="" selected>Seleccione una prioridad</option>
+                                <option value="1">Normal</option>
+                                <option value="2">Alta</option>
+                                <option value="3">Urgente</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-primary mt-2" th:id="'btnGuardar-' + ${ticket.id}"
+                                style="display: none;">Guardar</button>
+                        </form>
+
+
+                    </div>
+                    <div th:if="${ticket.estado.nombre}=='Resuelto'">
+                        <a th:unless="${informeService.tieneInforme(ticket.id)}"
+                            th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">
+                            Generar solución de incidencias
+                        </a>
+                        <!--<a th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">Generar solucion de incidencias</a>-->
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </th:block>
+    <script>
+        function mostrarBotonGuardar(ticketId) {
+            const boton = document.getElementById("btnGuardar-" + ticketId);
+            if (boton) {
+                boton.style.display = "inline-block";
+            }
+        }
+
+        function confirmarAccion(mensaje) {
+            return confirm(mensaje);
+        }
+    </script>
+</body>
+
+</html>

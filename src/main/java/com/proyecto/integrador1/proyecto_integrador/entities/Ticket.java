@@ -1,6 +1,7 @@
 package com.proyecto.integrador1.proyecto_integrador.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -56,8 +58,8 @@ public class Ticket {
     @JoinColumn(name = "TIPO_PRIORIDAD_ID", nullable = false)
     private TipoPrioridad prioridad;
 
-    @OneToOne(mappedBy = "ticket" , cascade = CascadeType.ALL , orphanRemoval = true)
-    private InformeIncidencia informeIncidencia;
+    @OneToMany(mappedBy = "ticket",fetch =FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<InformeIncidencia> informesIncidencia;
 
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL,orphanRemoval = true)
     private Reporte reporte;
