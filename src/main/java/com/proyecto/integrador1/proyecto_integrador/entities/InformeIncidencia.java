@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -36,5 +37,9 @@ public class InformeIncidencia {
     private Ticket ticket;
 
     private String titulo;
+
+    @ManyToOne
+    @JoinColumn(name = "USUARIO_ID" , nullable = false)
+    private Usuario usuario;
 
 }

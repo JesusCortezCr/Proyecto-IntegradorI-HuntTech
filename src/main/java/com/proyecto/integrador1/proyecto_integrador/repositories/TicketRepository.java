@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.proyecto.integrador1.proyecto_integrador.entities.InformeIncidencia;
 import com.proyecto.integrador1.proyecto_integrador.entities.Ticket;
 import com.proyecto.integrador1.proyecto_integrador.entities.Usuario;
 
@@ -28,4 +29,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
                     END
             """)
     List<Ticket> obtenerTicketOrdenadosPorPrioridad(@Param("nombreUniversidad") String nombreUniversidad);
+
+    
 }

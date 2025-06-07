@@ -1,5 +1,6 @@
 package com.proyecto.integrador1.proyecto_integrador.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,16 @@ public class InformeIncidenciaServiceImpl implements InformeIncidenciaService {
     public InformeIncidencia findById(Long id) {
         Optional<InformeIncidencia> informeIncidencia = informeIncidenciaRepository.findById(id);
         return informeIncidencia.get();
+    }
+
+    @Override
+    public boolean tieneInforme(Long ticketId) {
+        return informeIncidenciaRepository.existsByTicketId(ticketId);
+    }
+
+    @Override
+    public List<InformeIncidencia> obtenerInformesPorUniversidad(String nombreUniversidad) {
+         return informeIncidenciaRepository.obtenerTodosInformesIncidenciasPorUniversidada(nombreUniversidad);
     }
 
 }

@@ -76,8 +76,13 @@
 
 
                     </div>
-                    <div th:if="${ticket.estado.nombre}=='Rechazado'">
-                        <a th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">Generar solucion de incidencias</a>
+                    <div th:if="${ticket.estado.nombre}=='Resuelto'">
+                        <a th:unless="${informeService.tieneInforme(ticket.id)}"
+                            th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">
+                            Generar solución de incidencias
+                        </a>
+                        <!--<a th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">Generar solucion de incidencias</a>-->
+
                     </div>
 
 

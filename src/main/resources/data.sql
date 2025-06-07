@@ -65,4 +65,26 @@ INSERT INTO usuarios (
     '721421416',
     2,
     3
-);
+),('Matias',
+    'Fernandez Salazar',
+    'matias@gmail.com',
+    '$2a$10$zpwmWV4RXXIo54Ed7LWacOSxJcj.u5R5x5qJpCMEgusNFfo3KwIXe',
+    '721421412',
+    2,
+    1
+),('Carlos',
+    'Sanchez Soliz',
+    'carlit@gmail.com',
+    '$2a$10$zpwmWV4RXXIo54Ed7LWacOSxJcj.u5R5x5qJpCMEgusNFfo3KwIXe',
+    '721421411',
+    2,
+    2
+),('Paolo',
+    'Chirinos Quispe',
+    'paolo@gmail.com',
+    '$2a$10$zpwmWV4RXXIo54Ed7LWacOSxJcj.u5R5x5qJpCMEgusNFfo3KwIXe',
+    '721421422',
+    2,
+    3
+)
+;

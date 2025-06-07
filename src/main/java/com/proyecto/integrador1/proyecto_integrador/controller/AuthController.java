@@ -50,7 +50,6 @@ public class AuthController {
 
     private final TicketRepository ticketRepository;
 
-    @Autowired
     public AuthController(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
@@ -177,6 +176,7 @@ public class AuthController {
         }
         model.addAttribute("tickets", tickets);
         model.addAttribute("usuario", usuario);
+        model.addAttribute("informeService", informeIncidenciaService);
         return "TicketsGenerados";
     }
 
@@ -330,7 +330,8 @@ public class AuthController {
 
     @PostMapping("/generar-informe/{id}")
     public String generarInformeIncidencia(
-            @RequestParam("descripcion") String descripcion, @PathVariable Long id, Model model,@RequestParam("titulo") String titulo ,
+            @RequestParam("descripcion") String descripcion, @PathVariable Long id, Model model,
+            @RequestParam("titulo") String titulo,
             Principal principal) {
 
         InformeIncidencia informe = new InformeIncidencia();
@@ -339,11 +340,57 @@ public class AuthController {
             Ticket ticket = ticketOptional.get();
             informe.setTicket(ticket);
         }
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(principal.getName());
+        if (usuarioOptional.isPresent()) {
+            informe.setUsuario(usuarioOptional.get());
+        }
         informe.setDescripcion(descripcion);
         informe.setFechaHoraInforme(LocalDateTime.now());
         informe.setTitulo(titulo);
         informeIncidenciaService.guardar(informe);
         return "redirect:/tickets-administrador";
+        // return "redirect:/login?success";
+        /**
+         * <div th:if="${param.success}" style="color: green;">
+         * Registro exitoso! Por favor inicia sesión
+         * </div>
+         */
     }
+
+    @GetMapping("/mostrar-historial-informes")
+    public String mostrarHistorialInformes(Principal principal, Model model) {
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        List<InformeIncidencia> informes = informeIncidenciaService
+                .obtenerInformesPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
+        model.addAttribute("informes", informes);
+        model.addAttribute("usuario", usuario);
+
+        return "HistorialInformes";
+
+    }
+
+    /**
+     * @GetMapping("/tickets-administrador")
+     * public String mostrarTicketsAdministrador(@RequestParam(required = false)
+     * String orden, Model model,
+     * Principal principal) {
+     * Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+     * .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+     * List<Ticket> tickets;
+     * if ("prioridad".equals(orden)) {
+     * tickets =
+     * ticketService.obtenerTicketsOrdenadosPorPrioridad(usuario.getEmpresa().getNombreEmpresa());
+     * } else {
+     * tickets =
+     * ticketService.obtenerTodosTicketsPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
+     * }
+     * model.addAttribute("tickets", tickets);
+     * model.addAttribute("usuario", usuario);
+     * model.addAttribute("informeService", informeIncidenciaService);
+     * return "TicketsGenerados";
+     * }
+     */
 
 }

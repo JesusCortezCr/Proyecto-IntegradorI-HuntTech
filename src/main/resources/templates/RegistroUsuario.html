@@ -1,30 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de cliente</title>
-        <link href="/css/EstiloRegistroCliente.css" rel="stylesheet" th:href="@{/css/EstiloRegistroCliente.css}">
+    <link href="/css/EstiloRegistroCliente.css" rel="stylesheet" th:href="@{/css/EstiloRegistroCliente.css}">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.8em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+        }
 
+        input.invalid {
+            border-color: red;
+        }
+
+        input.valid {
+            border-color: green;
+        }
+    </style>
 </head>
+
 <body>
     <header></header>
     <main>
         <h1>Registro de cliente</h1>
         <div class="contenedor-registro-usuario">
-            <form th:action="@{/register}" th:object="${usuario}" method="post">
-                <input type="text" th:field="*{nombre}" placeholder="Ingrese nombre" required autocomplete="off">
+            <form id="registroForm" th:action="@{/register}" th:object="${usuario}" method="post"
+                onsubmit="return validarFormulario()">
+                <!-- Nombre -->
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ingrese nombre" required
+                    autocomplete="off" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" title="Solo letras y espacios">
+                <div id="nombreError" class="error-message">El nombre solo puede contener letras y espacios</div>
                 <br>
-                <input type="text" th:field="*{apellido}" placeholder="Ingrese apellido" required autocomplete="off">
+
+                <!-- Apellido -->
+                <input type="text" id="apellido" th:field="*{apellido}" placeholder="Ingrese apellido" required
+                    autocomplete="off" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ ]+" title="Solo letras y espacios">
+                <div id="apellidoError" class="error-message">El apellido solo puede contener letras y espacios</div>
                 <br>
-                <input type="password" th:field="*{password}" placeholder="Ingrese contraseña" required autocomplete="off">
+
+                <!-- Contraseña -->
+                <input type="password" id="password" th:field="*{password}" placeholder="Ingrese contraseña" required
+                    autocomplete="off" minlength="8" title="La contraseña debe tener al menos 8 caracteres">
+                <div id="passwordError" class="error-message">La contraseña debe tener al menos 8 caracteres</div>
                 <br>
-                <input type="email" th:field="*{email}" placeholder="Ingrese su correo" required autocomplete="off">
+
+                <!-- Email -->
+                <input type="email" id="email" th:field="*{email}" placeholder="Ingrese su correo" required
+                    autocomplete="off">
+                <div id="emailError" class="error-message">Ingrese un correo electrónico válido</div>
                 <br>
-                <input type="text" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required autocomplete="off">
+
+                <!-- DNI -->
+                <input type="text" id="dni" th:field="*{dniUsuario}" placeholder="Ingrese su DNI" required
+                    autocomplete="off" pattern="[0-9]{8}" title="El DNI debe tener 8 dígitos">
+                <div id="dniError" class="error-message">El DNI debe tener exactamente 8 dígitos</div>
                 <br>
-                <input type="text" name="codigoEmpresa" placeholder="Ingrese código de empresa " required autocomplete="off">
+
+                <!-- Código de Empresa -->
+                <input type="text" id="codigoEmpresa" name="codigoEmpresa" placeholder="Ingrese código de empresa"
+                    required autocomplete="off" pattern="[A-Za-z0-9]{6,12}"
+                    title="Código de 6 a 12 caracteres alfanuméricos">
+                <div id="codigoError" class="error-message">El código debe tener entre 6 y 12 caracteres alfanuméricos
+                </div>
                 <br>
+
                 <div th:if="${error}" th:text="${error}" style="color: red;"></div>
                 <button type="submit">Registrar</button>
             </form>
@@ -32,5 +77,154 @@
         </div>
     </main>
     <footer></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configurar event listeners para validación en tiempo real
+            document.getElementById('nombre').addEventListener('input', validarNombre);
+            document.getElementById('apellido').addEventListener('input', validarApellido);
+            document.getElementById('password').addEventListener('input', validarPassword);
+            document.getElementById('email').addEventListener('input', validarEmail);
+            document.getElementById('dni').addEventListener('input', validarDNI);
+            document.getElementById('codigoEmpresa').addEventListener('input', validarCodigoEmpresa);
+        });
+
+        function validarNombre() {
+            const nombre = document.getElementById('nombre');
+            const error = document.getElementById('nombreError');
+            const regex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/;
+
+            if (!regex.test(nombre.value)) {
+                nombre.classList.add('invalid');
+                nombre.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                nombre.classList.add('valid');
+                nombre.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarApellido() {
+            const apellido = document.getElementById('apellido');
+            const error = document.getElementById('apellidoError');
+            const regex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/;
+
+            if (!regex.test(apellido.value)) {
+                apellido.classList.add('invalid');
+                apellido.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                apellido.classList.add('valid');
+                apellido.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarPassword() {
+            const password = document.getElementById('password');
+            const error = document.getElementById('passwordError');
+
+            if (password.value.length < 8) {
+                password.classList.add('invalid');
+                password.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                password.classList.add('valid');
+                password.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarEmail() {
+            const email = document.getElementById('email');
+            const error = document.getElementById('emailError');
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!regex.test(email.value)) {
+                email.classList.add('invalid');
+                email.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                email.classList.add('valid');
+                email.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarDNI() {
+            const dni = document.getElementById('dni');
+            const error = document.getElementById('dniError');
+            const regex = /^[0-9]{8}$/;
+
+            if (!regex.test(dni.value)) {
+                dni.classList.add('invalid');
+                dni.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                dni.classList.add('valid');
+                dni.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarCodigoEmpresa() {
+            const codigo = document.getElementById('codigoEmpresa');
+            const error = document.getElementById('codigoError');
+            const regex = /^[A-Za-z0-9]{6,12}$/;
+
+            if (!regex.test(codigo.value)) {
+                codigo.classList.add('invalid');
+                codigo.classList.remove('valid');
+                error.style.display = 'block';
+                return false;
+            } else {
+                codigo.classList.add('valid');
+                codigo.classList.remove('invalid');
+                error.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validarFormulario() {
+            const valido =
+                validarNombre() &
+                validarApellido() &
+                validarPassword() &
+                validarEmail() &
+                validarDNI() &
+                validarCodigoEmpresa();
+
+            if (!valido) {
+                // Mostrar todos los errores si hay campos inválidos
+                const campos = ['nombre', 'apellido', 'password', 'email', 'dni', 'codigoEmpresa'];
+                campos.forEach(campo => {
+                    const input = document.getElementById(campo);
+                    if (input.classList.contains('invalid')) {
+                        document.getElementById(`${campo}Error`).style.display = 'block';
+                    }
+                });
+
+                // Enfocar el primer campo con error
+                const primerError = document.querySelector('.invalid');
+                if (primerError) {
+                    primerError.focus();
+                }
+
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
+
 </html>
