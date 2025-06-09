@@ -65,14 +65,13 @@
                 <!-- Código de Empresa -->
                 <input type="text" id="codigoEmpresa" name="codigoEmpresa" placeholder="Ingrese código de empresa"
                     required autocomplete="off" 
-                    title="Código de 6 a 12 caracteres alfanuméricos">
+                    title="">
+                    <br>
+                    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+                    <button type="submit">Registrar</button>
+                </form>
+                <p>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión</a></p>
                 </div>
-                <br>
-
-                <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-                <button type="submit">Registrar</button>
-            </form>
-            <p>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión</a></p>
         </div>
     </main>
     <footer></footer>
@@ -175,7 +174,8 @@
             }
         }
 
-        function validarCodigoEmpresa() {
+        /**
+         *  function validarCodigoEmpresa() {
             const codigo = document.getElementById('codigoEmpresa');
             const error = document.getElementById('codigoError');
             const regex = /^[A-Za-z0-9]{6,12}$/;
@@ -192,6 +192,8 @@
                 return true;
             }
         }
+        */
+       
 
         function validarFormulario() {
             const valido =
