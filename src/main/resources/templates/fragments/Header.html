@@ -1,4 +1,157 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-warning">
+    <style>
+/* Navbar Hunt Tech - Colores beige elegantes */
+.navbar.bg-warning {
+    background: linear-gradient(135deg, var(--hunt-beige, #e8d5b7) 0%, var(--hunt-beige-dark, #d4c1a4) 100%) !important;
+    box-shadow: 0 4px 20px rgba(61, 47, 31, 0.15);
+    border-bottom: 3px solid var(--hunt-teal, #4a7c7e);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand img {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 8px rgba(61, 47, 31, 0.2));
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 12px rgba(61, 47, 31, 0.3));
+}
+
+.navbar-nav .nav-link {
+    color: var(--hunt-brown, #3d2f1f) !important;
+    font-weight: 600;
+    padding: 0.8rem 1.2rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-nav .nav-link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(74, 124, 126, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.navbar-nav .nav-link:hover::before {
+    left: 100%;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--hunt-teal, #4a7c7e) !important;
+    background: rgba(74, 124, 126, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 124, 126, 0.2);
+}
+
+.navbar-nav .nav-link.active {
+    background: rgba(74, 124, 126, 0.15);
+    border-left: 4px solid var(--hunt-teal, #4a7c7e);
+}
+
+.btn-outline-danger {
+    background: linear-gradient(135deg, var(--hunt-brown, #3d2f1f), var(--hunt-brown-light, #5c4a3a));
+    color: var(--hunt-beige, #e8d5b7) !important;
+    border: 2px solid var(--hunt-brown, #3d2f1f) !important;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline-danger::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-outline-danger:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-outline-danger:hover {
+    background: linear-gradient(135deg, var(--hunt-brown-light, #5c4a3a), var(--hunt-brown, #3d2f1f));
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(61, 47, 31, 0.3);
+    border-color: var(--hunt-brown-light, #5c4a3a) !important;
+}
+
+.navbar-toggler {
+    border: 2px solid var(--hunt-teal, #4a7c7e);
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(74, 124, 126, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23%234a7c7e' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Animación sutil para toda la navbar */
+.navbar {
+    animation: navbarSlideDown 0.8s ease-out;
+}
+
+@keyframes navbarSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-nav .nav-link {
+        padding: 0.6rem 1rem !important;
+        margin: 0.2rem 0;
+    }
+    
+    .navbar-brand img {
+        height: 60px !important;
+    }
+    
+    .btn-outline-danger {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Variables CSS para consistencia */
+:root {
+    --hunt-teal: #4a7c7e;
+    --hunt-teal-light: #6b9b9d;
+    --hunt-teal-dark: #2f5456;
+    --hunt-brown: #3d2f1f;
+    --hunt-brown-light: #5c4a3a;
+    --hunt-beige: #e8d5b7;
+    --hunt-beige-dark: #d4c1a4;
+    --hunt-gold: #b8860b;
+}
+</style>
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}"><img th:src="@{/IMG/logoHuntech.png}" alt="logo" height="80"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
