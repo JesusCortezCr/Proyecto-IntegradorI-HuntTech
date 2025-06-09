@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial informes</title>
+</head>
+
+<body>
+
+    <th:block th:fragment="content">
+        <h1>HISTORIAL SOLUCIONES INFORMES INCIDENCIAS</h1>
+        <div class="informes-contenedor" th:if="${informes}">
+            <div class="informe-card" th:each="informe : ${informes}">
+                <h3 th:text="'ID INFORME: '+ ${informe.id}"></h3>
+                <h3 th:text="'TITULO:  '+ ${informe.titulo}"></h3>
+                <h3
+                    th:text="'FECHA-HORA INFORME : '+${#temporals.format(informe.fechaHoraInforme, 'dd/MM/yyyy HH:mm')} ">
+                </h3>
+                <h3 th:text="'TECNICO : '+${informe.usuario.nombre} +' ' +${informe.usuario.apellido} "></h3>
+                <div class="info-ticket">
+                    <h3 th:text="'Ticket ID : '+${informe.ticket.id}"></h3>
+                    <h3 th:text="'EMPRESA : '+${informe.ticket.usuario.empresa.nombreEmpresa}"></h3>
+                    <h3 th:text="'PROBLEMA : '+${informe.ticket.descripcion}"></h3>
+                </div>
+                <h3 th:text="'SOLUCION: ' +${informe.descripcion}"></h3>
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>

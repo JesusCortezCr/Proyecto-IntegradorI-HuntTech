@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Ticket</title>
+    <link href="/css/EstiloEditarTicket.css" rel="stylesheet" th:href="@{/css/EstiloEditarTicket.css}">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.8em;
+            margin-top: -15px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .form-control.invalid {
+            border-color: red;
+        }
+
+        .form-control.valid {
+            border-color: green;
+        }
+
+        .form-select.invalid {
+            border-color: red;
+        }
+
+        .form-select.valid {
+            border-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="contenedor-registro" th:if="${usuario}">
+            <div class="contenedor-ticket">
+                <form id="editarTicketForm" th:action="@{/editar-ticket/{id}(id=${ticket.id})}" method="post"
+                    th:object="${ticket}" onsubmit="return validarFormulario()">
+                    <h1>EDITAR TICKET</h1>
+                    <h3>Empresa : <span th:text="${ticket.usuario.empresa.nombreEmpresa}"></span> </h3>
+
+                    <!-- Dirección con formato específico -->
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección (Formato: SJL-UTP-A0304):</label>
+                        <input type="text" name="direccion" class="form-control" id="direccion" th:field="*{direccion}"
+                            pattern="[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}" title="El formato debe ser: SJL-UTP-A0304" required>
+                        <div id="direccionError" class="error-message">El formato debe ser: SJL-UTP-A0304 (3 letras
+                            mayúsculas, guión, 3 letras mayúsculas, guión, 5 caracteres alfanuméricos)</div>
+                    </div>
+
+                    <!-- Prioridad -->
+                    <div class="mb-3">
+                        <label for="prioridad" class="form-label">Prioridad:</label>
+                        <select name="prioridadId" class="form-select" id="prioridad" required>
+                            <option value="">Seleccione una prioridad</option>
+                            <option value="1" th:selected="${ticket.prioridad.id == 1}">Normal</option>
+                            <option value="2" th:selected="${ticket.prioridad.id == 2}">Alta</option>
+                            <option value="3" th:selected="${ticket.prioridad.id == 3}">Urgente</option>
+                        </select>
+                        <div id="prioridadError" class="error-message">Por favor seleccione una prioridad</div>
+                    </div>
+
+                    <!-- Categoría -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoría de la solicitud:</label>
+                        <select name="categoriaId" class="form-select" id="categoria" required>
+                            <option value="">Seleccione una categoría</option>
+                            <option value="1" th:selected="${ticket.categoria.id == 1}">Hardware</option>
+                            <option value="2" th:selected="${ticket.categoria.id == 2}">Software</option>
+                            <option value="3" th:selected="${ticket.categoria.id == 3}">Redes</option>
+                            <option value="4" th:selected="${ticket.categoria.id == 4}">Soporte Tecnico</option>
+                            <option value="5" th:selected="${ticket.categoria.id == 5}">Consultas</option>
+                        </select>
+                        <div id="categoriaError" class="error-message">Por favor seleccione una categoría</div>
+                    </div>
+
+                    <!-- Estado (solo lectura) -->
+                    <div class="mb-3">
+                        <label class="form-label">Estado:</label>
+                        <span class="form-control-plaintext">En Espera</span>
+                    </div>
+
+                    <!-- Dispositivo -->
+                    <div class="mb-3">
+                        <label for="dispositivo" class="form-label">Dispositivo:</label>
+                        <select name="dispositivoId" class="form-select" id="dispositivo" required>
+                            <option value="">Seleccione un dispositivo</option>
+                            <option value="1" th:selected="${ticket.dispositivo.id == 1}">Laptop</option>
+                            <option value="2" th:selected="${ticket.dispositivo.id == 2}">Desktop</option>
+                            <option value="3" th:selected="${ticket.dispositivo.id == 3}">Impresora</option>
+                            <option value="4" th:selected="${ticket.dispositivo.id == 4}">Telefono</option>
+                            <option value="5" th:selected="${ticket.dispositivo.id == 5}">Tablet</option>
+                            <option value="6" th:selected="${ticket.dispositivo.id == 6}">Servidor</option>
+                            <option value="7" th:selected="${ticket.dispositivo.id == 7}">Switch</option>
+                            <option value="8" th:selected="${ticket.dispositivo.id == 8}">Router</option>
+                        </select>
+                        <div id="dispositivoError" class="error-message">Por favor seleccione un dispositivo</div>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción del problema:</label>
+                        <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="5" required
+                            minlength="20" maxlength="500"></textarea>
+                        <div id="descripcionError" class="error-message">La descripción debe tener entre 20 y 500
+                            caracteres</div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">Realizar cambios</button>
+                        <br>
+                        <a th:href="@{/mis-tickets}" class="btn btn-secondary">Atrás</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div th:fragment="script">
+            <link href="/css/EstiloEditarTicket.css" rel="stylesheet" th:href="@{/css/EstiloEditarTicket.css}">
+            <script>
+                //hola cortez
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Configurar event listeners para validación en tiempo real
+                    document.getElementById('direccion').addEventListener('input', validarDireccion);
+                    document.getElementById('prioridad').addEventListener('change', validarPrioridad);
+                    document.getElementById('categoria').addEventListener('change', validarCategoria);
+                    document.getElementById('dispositivo').addEventListener('change', validarDispositivo);
+                    document.getElementById('descripcion').addEventListener('input', validarDescripcion);
+
+                    // Validar campos al cargar la página (por si hay valores precargados)
+                    validarDireccion();
+                    validarPrioridad();
+                    validarCategoria();
+                    validarDispositivo();
+                    validarDescripcion();
+                });
+
+                function validarDireccion() {
+                    const direccion = document.getElementById('direccion');
+                    const error = document.getElementById('direccionError');
+                    const regex = /^[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}$/;
+
+                    if (!regex.test(direccion.value)) {
+                        direccion.classList.add('invalid');
+                        direccion.classList.remove('valid');
+                        error.style.display = 'block';
+                        return false;
+                    } else {
+                        direccion.classList.add('valid');
+                        direccion.classList.remove('invalid');
+                        error.style.display = 'none';
+                        return true;
+                    }
+                }
+
+                function validarPrioridad() {
+                    const prioridad = document.getElementById('prioridad');
+                    const error = document.getElementById('prioridadError');
+
+                    if (prioridad.value === "") {
+                        prioridad.classList.add('invalid');
+                        prioridad.classList.remove('valid');
+                        error.style.display = 'block';
+                        return false;
+                    } else {
+                        prioridad.classList.add('valid');
+                        prioridad.classList.remove('invalid');
+                        error.style.display = 'none';
+                        return true;
+                    }
+                }
+
+                function validarCategoria() {
+                    const categoria = document.getElementById('categoria');
+                    const error = document.getElementById('categoriaError');
+
+                    if (categoria.value === "") {
+                        categoria.classList.add('invalid');
+                        categoria.classList.remove('valid');
+                        error.style.display = 'block';
+                        return false;
+                    } else {
+                        categoria.classList.add('valid');
+                        categoria.classList.remove('invalid');
+                        error.style.display = 'none';
+                        return true;
+                    }
+                }
+
+                function validarDispositivo() {
+                    const dispositivo = document.getElementById('dispositivo');
+                    const error = document.getElementById('dispositivoError');
+
+                    if (dispositivo.value === "") {
+                        dispositivo.classList.add('invalid');
+                        dispositivo.classList.remove('valid');
+                        error.style.display = 'block';
+                        return false;
+                    } else {
+                        dispositivo.classList.add('valid');
+                        dispositivo.classList.remove('invalid');
+                        error.style.display = 'none';
+                        return true;
+                    }
+                }
+
+                function validarDescripcion() {
+                    const descripcion = document.getElementById('descripcion');
+                    const error = document.getElementById('descripcionError');
+
+                    if (descripcion.value.length < 20 || descripcion.value.length > 500) {
+                        descripcion.classList.add('invalid');
+                        descripcion.classList.remove('valid');
+                        error.style.display = 'block';
+                        return false;
+                    } else {
+                        descripcion.classList.add('valid');
+                        descripcion.classList.remove('invalid');
+                        error.style.display = 'none';
+                        return true;
+                    }
+                }
+
+                function validarFormulario() {
+                    const valido =
+                        validarDireccion() &
+                        validarPrioridad() &
+                        validarCategoria() &
+                        validarDispositivo() &
+                        validarDescripcion();
+
+                    if (!valido) {
+                        // Mostrar todos los errores si hay campos inválidos
+                        const campos = ['direccion', 'prioridad', 'categoria', 'dispositivo', 'descripcion'];
+                        campos.forEach(campo => {
+                            const input = document.getElementById(campo);
+                            if (input.classList.contains('invalid')) {
+                                document.getElementById(`${campo}Error`).style.display = 'block';
+                            }
+                        });
+
+                        // Enfocar el primer campo con error
+                        const primerError = document.querySelector('.invalid');
+                        if (primerError) {
+                            primerError.focus();
+                        }
+
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+        </div>
+</body>
+
+</html>

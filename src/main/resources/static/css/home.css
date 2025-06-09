@@ -1,0 +1,153 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Sección de bienvenida */
+.welcome-section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.user-profile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+}
+
+.company-logo-img {
+    width: 120px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.welcome-title {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.user-details p {
+    margin: 0.3rem 0;
+}
+
+/* Misión y Visión */
+.mission-vision-section .card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+/* Iconos */
+.icon {
+    font-size: 1.3rem;
+}
+
+/* Estadísticas */
+.stats-section {
+    text-align: center;
+    margin: 3rem 0;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: scale(1.05);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.stat-label {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* Llamado a la acción */
+.cta-section {
+    background-color: #007bff;
+    color: white;
+    padding: 2rem 1rem;
+    border-radius: 12px;
+    margin-top: 3rem;
+}
+
+.cta-buttons a {
+    margin: 1rem;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    color: white;
+    border: 1px solid;
+}
+
+/* Botón cerrar sesión */
+.logout-section button {
+    margin-top: 2rem;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .user-profile {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cta-buttons a {
+        display: block;
+        width: 80%;
+        margin: 0.5rem auto;
+    }
+
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+}

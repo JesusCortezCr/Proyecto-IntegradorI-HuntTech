@@ -1,0 +1,154 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    background-size: cover; /* cubre toda la pantalla */
+    background-repeat: no-repeat; /* evita que se repita */
+    background-position: center;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 24px;
+    color: #000;
+}
+
+h3 {
+    text-align: right;
+    margin-bottom: 1rem;
+    margin-top: -1.5rem;
+    margin-right: 10px;
+}
+
+.contenedor-registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-ticket {
+    background-color: rgba(253, 219, 176, 0.9); /* 0.6 es la opacidad */
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 4px 4px 0px #000;
+    padding: 2rem;
+    width: 650px;
+    margin: 30px 0;
+}
+
+label {
+    font-weight: bold;
+}
+input{
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+select{
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 2px solid #000;
+    border-radius: 6px;
+    box-shadow: 2px 2px 0px #000;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+}
+
+.form-control-plaintext {
+    border: 2px solid #000;
+    padding: 0.5rem;
+    background-color: #eee;
+    border-radius: 6px;
+    box-shadow: 2px 2px 0px #000;
+    display: inline-block;
+    width: 100%;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #000;
+    border-radius: 6px;
+    background-color: white;
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 2px 2px 0px #000;
+    margin-top: 1rem;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.btn:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-primary {
+    margin-right: 1rem;
+}
+
+.btn-secondary {
+    background-color: #eee;
+}
+
+.d-grid {
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+    background-position: center;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  h3 {
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .contenedor-ticket {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .btn-primary {
+    margin-bottom: 0.5rem;
+  }
+
+  .contenedor-registro {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

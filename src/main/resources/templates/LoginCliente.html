@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesion</title>
+    <link href="/css/EstiloLoginCliente.css" rel="stylesheet" th:href="@{/css/EstiloLoginCliente.css}">
+</head>
+<body>
+    <header></header>
+    <main>
+        <h1>Inicio de Sesion</h1>
+        <div class="contenedor-login-cliente">
+            <form th:action="@{/login}" method="post">
+                <div th:if="${param.error}" style="color: red;">
+                    Credenciales inválidas
+                </div>
+                <div th:if="${param.logout}" style="color: green;">
+                    Has cerrado sesión correctamente
+                </div>
+                <div th:if="${param.success}" style="color: green;">
+                    Registro exitoso! Por favor inicia sesión
+                </div>
+                <input type="email" name="username" placeholder="Correo electrónico" required autocomplete="off" />
+                <br>
+                <input type="password" name="password" placeholder="Contraseña" required autocomplete="off" />
+                <br>
+                <button type="submit">Ingresar</button>
+                <br>
+                <a th:href="@{/register}">Registrarse</a>
+            </form>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
