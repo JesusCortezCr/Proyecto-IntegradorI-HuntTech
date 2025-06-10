@@ -1,0 +1,283 @@
+:root {
+  --primary-color: #3a6259;
+  --secondary-color: #c9a55c;
+  --background-color: #e6d7b0;
+  --dark-accent: #3c3224;
+  --light-text: #ffffff;
+  --shadow: rgba(60, 50, 36, 0.2);
+  --border-color: #e0e0e0;
+  --status-pending: #f39c12;
+  --status-completed: #2ecc71;
+  --status-cancelled: #e74c3c;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Body & Layout */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233a6259' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  color: var(--dark-accent);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Título principal */
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin: 0 0 3rem 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  border-radius: 2px;
+}
+
+/* Contenedor principal de informes */
+.informes-contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+/* Cards de informes */
+.informe-card {
+  background: var(--light-text);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 
+    0 8px 25px var(--shadow),
+    0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.informe-card:nth-child(1) { animation-delay: 0.1s; }
+.informe-card:nth-child(2) { animation-delay: 0.2s; }
+.informe-card:nth-child(3) { animation-delay: 0.3s; }
+.informe-card:nth-child(4) { animation-delay: 0.4s; }
+.informe-card:nth-child(n+5) { animation-delay: 0.5s; }
+
+/* Efecto decorativo en las cards */
+.informe-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+}
+
+.informe-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 15px 40px var(--shadow),
+    0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Títulos dentro de las cards */
+.informe-card h3 {
+  margin: 0.8rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark-accent);
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 1rem;
+}
+
+/* Iconos decorativos para cada tipo de información */
+.informe-card h3::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: var(--secondary-color);
+  font-size: 0.8rem;
+}
+
+/* Estilo específico para ID del informe */
+.informe-card h3:first-child {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: var(--light-text);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  margin: 0.5rem ;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.informe-card h3:first-child::before {
+  content: "🎫";  
+}
+
+/* Sección de información del ticket */
+.info-ticket {
+  background: linear-gradient(135deg, rgba(58, 98, 89, 0.05), rgba(201, 165, 92, 0.05));
+  border-left: 4px solid var(--primary-color);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 12px 12px 0;
+  position: relative;
+}
+
+.info-ticket::before {
+  content: "📋 INFORMACIÓN DEL TICKET";
+  position: absolute;
+  top: -20px;
+  left: 1rem;
+  background: var(--primary-color);
+  color: var(--light-text);
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.info-ticket h3 {
+  margin: 0.6rem 0;
+  font-size: 0.95rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.info-ticket h3::before {
+  color: var(--primary-color);
+}
+
+/* Sección de solución destacada */
+.informe-card h3:last-child {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05));
+  border: 2px solid var(--status-completed);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  color: var(--dark-accent);
+  font-weight: 600;
+  position: relative;
+}
+
+.informe-card h3:last-child::before {
+  color: var(--status-completed);
+  font-size: 1.2rem;
+}
+
+/* Efectos para fechas y técnicos */
+.informe-card h3:nth-child(4)::before { content: "👨‍💻"; }
+
+/* Estados y badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-completed {
+  background-color: var(--status-completed);
+  color: white;
+}
+
+.status-pending {
+  background-color: var(--status-pending);
+  color: white;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .informes-contenedor {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+  
+  .informe-card {
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .informe-card h3 {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {  
+  .informe-card {
+    padding: 1.2rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .info-ticket {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+}
+
+/* Efecto de carga suave */
+.informes-contenedor {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
