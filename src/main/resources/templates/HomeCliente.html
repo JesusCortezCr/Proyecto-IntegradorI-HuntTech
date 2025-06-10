@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link href="/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+
+<body>
+    <th:block th:fragment="content">
+        <!-- Sección de bienvenida personalizada -->
+        <div class="welcome-section" th:if="${usuario}">
+            <div class="user-profile">
+                <div class="company-logo">
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD TECNOLOGICA DEL PERU'}">
+                        <img th:src="@{/IMG/utplogo.png}" alt="Logo UTP" class="img-fluid company-logo-img">
+                    </div>
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD PRIVADA DEL NORTE'}">
+                        <img th:src="@{/IMG/upnlogo.png}" alt="Logo UPN" class="img-fluid company-logo-img">
+                    </div>
+                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD CESAR VALLEJO'}">
+                        <img th:src="@{/IMG/logoucv.jpg}" alt="Logo UCV" class="img-fluid company-logo-img">
+                    </div>
+                </div>
+
+                <div class="user-info">
+                    <h1 class="welcome-title">Bienvenido, <span th:text="${usuario.nombre}"></span>!</h1>
+                    <div class="user-details">
+                        <p><strong>Nombre completo:</strong> <span
+                                th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></p>
+                        <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+                        <p><strong>Empresa:</strong> <span th:text="${usuario.empresa.nombreEmpresa}"></span></p>
+                        <p><strong>Rol:</strong> <span th:text="${usuario.rol.nombre}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Misión y Visión -->
+        <div class="mission-vision-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mission-card">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-bullseye icon"></i> Nuestra Misión
+                            </div>
+                            <div class="card-body">
+                                <p>Proporcionar a nuestros clientes una experiencia adecuada y amigable para la gestión
+                                    de solicitudes de servicio técnico con herramientas apropiadas y un proceso de
+                                    administración de tickets con el cual puedan realizar las operaciones de manera
+                                    eficiente y efectiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 vision-card">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-eye icon"></i> Nuestra Visión
+                            </div>
+                            <div class="card-body">
+                                <p>Convertirnos en una empresa con el mayor prestigio a nivel nacional e internacional,
+                                    ofreciendo servicios de alta calidad utilizando tecnologías adecuadas para poder
+                                    desarrollar softwares robustos, escalables y adaptables a las necesidades cambiantes
+                                    del mercado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas rápidas (puedes hacerlas dinámicas con datos reales después) -->
+        <div class="stats-section">
+            <div class="container">
+                <h2 class="section-title">Nuestro Impacto</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" th:text="${ticketsResueltos ?: '1,250+'}">1,250+</div>
+                            <div class="stat-label">Tickets Resueltos</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" th:text="${clientesSatisfechos ?: '98%'}">98%</div>
+                            <div class="stat-label">Satisfacción del Cliente</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" th:text="${empresasAsociadas ?: '4'}">4</div>
+                            <div class="stat-label">Empresas Asociadas</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number" th:text="${tiempoRespuesta ?: '2h'}">2h</div>
+                            <div class="stat-label">Tiempo Promedio de Respuesta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Llamado a la acción -->
+        <div class="cta-section">
+            <div class="container text-center">
+                <h2>¿Listo para comenzar?</h2>
+                <p>Gestiona tus tickets de soporte técnico de manera eficiente con nuestra plataforma</p>
+                <div class="cta-buttons">
+                    <a th:href="@{/generar-ticket}" class="btn btn-primary btn-lg">Crear Nuevo Ticket</a>
+                    <a th:href="@{/mis-tickets}" class="btn btn-outline-primary btn-lg">Ver Mis Tickets</a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <th:block th:fragment="script">
+        <link href="/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">
+        <!-- si quieres incluir scripts adicionales también puedes hacerlo aquí -->
+    </th:block>
+</body>
+
+</html>

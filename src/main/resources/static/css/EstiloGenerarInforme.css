@@ -1,0 +1,707 @@
+/* Hunt Tech CSS - Generar Informes de Incidencias */
+:root {
+  --hunt-teal: #4a7c7e;
+  --hunt-teal-light: #6b9b9d;
+  --hunt-teal-dark: #2f5456;
+  --hunt-brown: #3d2f1f;
+  --hunt-brown-light: #5c4a3a;
+  --hunt-beige: #e8d5b7;
+  --hunt-beige-dark: #d4c1a4;
+  --hunt-gold: #b8860b;
+  --hunt-shadow: rgba(61, 47, 31, 0.3);
+  --hunt-glow: rgba(74, 124, 126, 0.4);
+  --light-text: #ffffff;
+  --error: #e74c3c;
+  --success: #27ae60;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--hunt-beige) 0%, var(--hunt-beige-dark) 100%);
+  color: var(--hunt-brown);
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  animation: pageLoad 1s ease-out;
+}
+
+/* Fondo animado con engranajes */
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, var(--hunt-teal) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, var(--hunt-brown) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234a7c7e' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100px 100px, 150px 150px, 60px 60px;
+  animation: backgroundFloat 25s linear infinite;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+@keyframes backgroundFloat {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  100% {
+    transform: rotate(360deg) translate(50px, 50px);
+  }
+}
+
+@keyframes pageLoad {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Contenedor principal de registro */
+.contenedor-registro {
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2rem;
+  animation: containerSlideIn 1s ease-out;
+}
+
+@keyframes containerSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Contenedor del informe */
+.contenedor-informe {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px var(--hunt-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: informeSlideIn 1s ease-out 0.3s both;
+  border: 2px solid rgba(74, 124, 126, 0.2);
+}
+
+@keyframes informeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.contenedor-informe::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--hunt-teal), var(--hunt-gold), var(--hunt-teal));
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background: linear-gradient(90deg, var(--hunt-teal), var(--hunt-gold), var(--hunt-teal));
+  }
+  50% {
+    background: linear-gradient(90deg, var(--hunt-gold), var(--hunt-teal), var(--hunt-gold));
+  }
+}
+
+/* Efecto de brillo en contenedor */
+.contenedor-informe::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(74, 124, 126, 0.1), transparent);
+  animation: shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Títulos con efecto máquina de escribir */
+h1 {
+  text-align: center;
+  color: var(--hunt-brown);
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 0.8rem;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 2.5s steps(30) 0.5s forwards;
+  width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-right: 3px solid var(--hunt-teal);
+  z-index: 1;
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+    border-right: none;
+  }
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--hunt-teal), var(--hunt-gold), var(--hunt-teal));
+  animation: underlineExpand 1s ease-out 3s forwards;
+}
+
+@keyframes underlineExpand {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 150px;
+  }
+}
+
+/* Subtítulos */
+h2 {
+  color: var(--hunt-teal-dark);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+h2::before {
+  content: "📋";
+  margin-right: 0.5rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+h3 {
+  color: var(--hunt-brown);
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  margin-top: 1.5rem;
+  position: relative;
+  animation: fadeInLeft 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+h3:nth-of-type(1) { animation-delay: 1s; }
+h3:nth-of-type(2) { animation-delay: 1.2s; }
+h3:nth-of-type(3) { animation-delay: 1.4s; }
+h3:nth-of-type(4) { animation-delay: 1.6s; }
+h3:nth-of-type(5) { animation-delay: 1.8s; }
+h3:nth-of-type(6) { animation-delay: 2s; }
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenedor del ticket con efecto de tarjeta */
+.contenedor-ticket {
+  background: linear-gradient(135deg, rgba(74, 124, 126, 0.1), rgba(184, 134, 11, 0.05));
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border: 2px solid rgba(74, 124, 126, 0.2);
+  box-shadow: 0 8px 25px rgba(74, 124, 126, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: ticketSlideIn 1s ease-out 0.6s both;
+  z-index: 1;
+}
+
+@keyframes ticketSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) rotateY(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+  }
+}
+
+.contenedor-ticket::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hunt-teal), var(--hunt-gold));
+}
+
+.contenedor-ticket::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  background: var(--hunt-teal);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: ticketPulse 3s ease-in-out infinite;
+}
+
+@keyframes ticketPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.2;
+  }
+}
+
+/* Párrafos del ticket */
+.contenedor-ticket p {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--hunt-teal);
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(15px);
+  position: relative;
+  z-index: 1;
+}
+
+.contenedor-ticket p:nth-of-type(1) { animation-delay: 1.5s; }
+.contenedor-ticket p:nth-of-type(2) { animation-delay: 1.7s; }
+.contenedor-ticket p:nth-of-type(3) { animation-delay: 1.9s; }
+
+/* Formulario */
+form {
+  position: relative;
+  z-index: 1;
+  animation: formSlideIn 1s ease-out 1s both;
+}
+
+@keyframes formSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Inputs y textarea con animaciones avanzadas */
+#tituloIncidencia,
+textarea {
+  width: 100%;
+  padding: 1.2rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid var(--hunt-beige-dark);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.9);
+  position: relative;
+  resize: vertical;
+}
+
+#tituloIncidencia {
+  animation: inputSlideIn 0.8s ease-out 1.2s both;
+}
+
+textarea {
+  min-height: 150px;
+  animation: inputSlideIn 0.8s ease-out 1.4s both;
+}
+
+@keyframes inputSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+#tituloIncidencia:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--hunt-teal);
+  box-shadow: 0 0 0 4px var(--hunt-glow), 0 10px 25px rgba(74, 124, 126, 0.2);
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-3px) scale(1.02);
+}
+
+#tituloIncidencia:hover,
+textarea:hover {
+  border-color: var(--hunt-teal-light);
+  box-shadow: 0 4px 12px rgba(74, 124, 126, 0.2);
+}
+
+#tituloIncidencia::placeholder,
+textarea::placeholder {
+  color: #999;
+  transition: opacity 0.3s ease;
+}
+
+#tituloIncidencia:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 0.5;
+}
+
+/* Estados de validación */
+input.valid,
+textarea.valid {
+  border-color: var(--success);
+  background: rgba(39, 174, 96, 0.05);
+  animation: successPulse 0.6s ease-out;
+}
+
+input.invalid,
+textarea.invalid {
+  border-color: var(--error);
+  background: rgba(231, 76, 60, 0.05);
+  animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Mensajes de error */
+.error-message {
+  background: rgba(231, 76, 60, 0.1);
+  border-left: 4px solid var(--error);
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--error);
+  animation: errorSlideDown 0.3s ease-out;
+  position: relative;
+  display: none;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 0.5rem;
+  animation: warningBlink 1s ease-in-out infinite;
+}
+
+@keyframes errorSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px;
+  }
+}
+
+@keyframes warningBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Botón de envío con efectos 3D */
+button[type="submit"] {
+  background: linear-gradient(135deg, var(--hunt-teal), var(--hunt-teal-dark));
+  color: white;
+  padding: 1.2rem 2.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 16px rgba(74, 124, 126, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: buttonSlideUp 0.8s ease-out 1.6s both, buttonPulse 3s ease-in-out 2.5s infinite;
+  margin-top: 1.5rem;
+}
+
+@keyframes buttonSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 8px 16px rgba(74, 124, 126, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 12px 24px rgba(74, 124, 126, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+button[type="submit"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  z-index: 0;
+}
+
+button[type="submit"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, var(--hunt-teal-dark), var(--hunt-teal));
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(74, 124, 126, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+button[type="submit"]:active {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(74, 124, 126, 0.3);
+}
+
+/* Efectos especiales para el formulario */
+#informeForm {
+  position: relative;
+}
+
+#informeForm::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(74, 124, 126, 0.03) 50%, transparent 70%);
+  pointer-events: none;
+  animation: formShine 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes formShine {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contenedor-registro {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .contenedor-informe {
+    padding: 1.8rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .contenedor-ticket {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contenedor-registro {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .contenedor-informe {
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contenedor-ticket {
+    padding: 1.2rem;
+  }
+
+  #tituloIncidencia,
+  textarea {
+    padding: 1rem;
+  }
+
+  button[type="submit"] {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Accesibilidad */
+#tituloIncidencia:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--hunt-teal);
+  outline-offset: 1px;
+}
+
+button[type="submit"]:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Ocultar elementos innecesarios */
+br {
+  display: none;
+}
+
+/* Asegurar que los elementos del formulario estén por encima del efecto */
+form > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Efectos adicionales para elementos específicos */
+#tituloIncidencia:valid {
+  border-color: var(--success);
+}
+
+#solucion:valid {
+  border-color: var(--success);
+}
+
+/* Animación especial para el ID del ticket */
+.contenedor-ticket h3 b {
+  color: var(--hunt-teal);
+  font-size: 1.1em;
+  animation: ticketIdGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes ticketIdGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(74, 124, 126, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 15px rgba(74, 124, 126, 0.6), 0 0 25px rgba(184, 134, 11, 0.3);
+  }
+}
