@@ -29,16 +29,6 @@ body {
   flex-direction: column;
 }
 
-/* Header bar */
-body::before {
-  content: "";
-  display: block;
-  height: 50px;
-  background-color: var(--primary-color);
-  box-shadow: 0 2px 10px var(--shadow);
-  margin-bottom: 1rem;
-}
-
 /* Titles */
 h1 {
   text-align: center;
