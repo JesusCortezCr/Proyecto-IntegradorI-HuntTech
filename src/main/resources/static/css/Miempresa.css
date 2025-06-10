@@ -6,7 +6,6 @@ body {
     line-height: 1.6; 
     color: #333; 
 }
-
 h1 {
     text-align: center;
     color: #000; 
@@ -29,12 +28,53 @@ h1::after {
     background-color: #FDD017; 
     border-radius: 2px; 
 }
-
-
 .logo-empresa {
     display: flex;
     justify-content: center;
     align-items: center; 
     margin: 40px 0;
 }
+.company-logo-img {
+    max-width: 250px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; 
+}
+.company-logo-img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+.empresa-info {
+    max-width: 680px; 
+    background-color: #ffffff;
+    margin: 0 auto 60px auto;
+    padding: 40px; 
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e0e0e0; 
+}
+.empresa-info h2 {
+    color: #000; 
+    font-size: 1.8rem; 
+    margin-bottom: 25px; 
+    border-bottom: 3px solid #FDD017;
+    padding-bottom: 10px;
+    display: inline-block; 
+    font-weight: 600; 
+}
+.empresa-info h3 {
+    color: #555; 
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: baseline; 
+}
+.empresa-info h3 b {
+    color: #000;
+    font-weight: 700; 
+    margin-left: 8px; 
+}
+
+
 
