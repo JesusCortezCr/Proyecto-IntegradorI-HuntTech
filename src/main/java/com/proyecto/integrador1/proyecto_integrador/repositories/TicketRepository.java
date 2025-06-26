@@ -17,6 +17,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("select t from Ticket t where t.usuario.empresa.nombreEmpresa=:nombreUniversidad")
     List<Ticket> obtenerTodosTicketsPorUniversidad(@Param("nombreUniversidad") String nombreUniversidad);
 
+    @Query("select t from Ticket t where t.usuario.empresa.nombreEmpresa=:nombreUniversidad and t.tecnico_id=:tecnicoId")
+    List<Ticket> obtenerTicketsPorUniversidadPorTecnico(@Param("nombreUniversidad") String nombreUniversidad,@Param("tecnicoId") Long tecnicoId);
+    
+
     @Query("""
                 SELECT t FROM Ticket t
                 WHERE t.usuario.empresa.nombreEmpresa = :nombreUniversidad

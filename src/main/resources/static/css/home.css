@@ -1,4 +1,17 @@
 /* Reset básico */
+/* Estilos iniciales para cuando se cargue el CSS */
+body {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.welcome-section,
+.mission-vision-section,
+.stats-section,
+.cta-section {
+    display: block !important;
+}
+
 * {
     margin: 0;
     padding: 0;

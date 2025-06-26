@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="CATEOGORIA_SOLICITUD")
+@Table(name="CATEGORIA_SOLICITUD")
 public class CategoriaSolicitud {
 
     @Id

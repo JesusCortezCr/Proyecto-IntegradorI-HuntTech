@@ -38,7 +38,7 @@ public class Usuario {
     @Column(name="DNI",nullable = false, unique = true)
     private String dniUsuario;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ROL_ID")
+    @JoinColumn(name = "ROL_ID", referencedColumnName = "ID_ROL")
     private Rol rol;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPRESA_ID")

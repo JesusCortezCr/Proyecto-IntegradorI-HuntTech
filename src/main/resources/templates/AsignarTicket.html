@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="/css/EstiloMisTickets.css" rel="stylesheet" th:href="@{/css/EstiloMisTickets.css}">
 </head>
 
 <body>
-    <div th:fragment="content">
-        <h1>Mis Tickets</h1>
+    <th:block th:fragment="content">
+        <h1>Asignar Ticket</h1>
+
         <div class="tickets-container" th:if="${tickets}">
-            <div class="ticket-card" th:each="ticket : ${tickets}">
+            <div class="ticket-card" th:each="ticket : ${tickets}" th:if="${ticket.tecnico_id == null or ticket.tecnico_id == 0}">
                 <div class="ticket-title" th:text="'Numero de solicitud : ' + ${ticket.id}">Ticket #</div>
                 <div class="ticket-empresa" th:text="'Empresa : ' + ${ticket.usuario.empresa.nombreEmpresa}">Empresa
                 </div>
@@ -30,19 +30,17 @@
                     <span class="ticket-label">Direccion:</span>
                     <span th:text="${ticket.direccion}">En Espera</span>
                 </div>
-                <!--
                 <div class="ticket-detail">
                     <span class="ticket-label">Prioridad:</span>
                     <span th:text="${ticket.prioridad.nombre}">En Espera</span>
                 </div>
-                -->
                 <div class="ticket-detail">
                     <span class="ticket-label">Descripcion:</span>
                     <span th:text="${ticket.descripcion}">Pantalla rota</span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Cliente:</span>
-                    <span th:text="${ticket.usuario.nombre}">Pantalla rota</span>
+                    <span th:text="${ticket.usuario.nombre} +' '+${ticket.usuario.apellido}">Pantalla rota</span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Categoria de solicitud :</span>
@@ -52,29 +50,25 @@
                     <span class="ticket-label">Dispositivo:</span>
                     <span th:text="${ticket.dispositivo.nombre}">Laptop</span>
                 </div>
-                <div th:if="${ticket.estado.nombre == 'En Espera'}">
-                    <div class="botones">
-                        <a th:href="@{/editar-ticket/{id}(id=${ticket.id})}" class="btn btn-primary">Editar</a>
-                        <form th:action="@{/eliminar-ticket/{id}(id=${ticket.id})}" method="post"
-                            style="display: inline;">
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('¿Estás seguro de que quieres eliminar este ticket?')">Eliminar</button>
-                        </form>
-
+                <form method="post" th:action="@{/asignar-tecnico}">
+                    <input type="hidden" name="ticketId" th:value="${ticket.id}">
+                    <div class="mb-3">
+                        <label for="tecnico" class="form-label">Tecnico:</label>
+                        <select name="tecnicoId" class="form-select" id="tecnico" required>
+                            <option value="" disabled selected>Seleccione un tecnico</option>
+                            <option th:each="tec : ${tecnicos}" th:value="${tec.id}"
+                                th:text="${tec.nombre}+' '+${tec.apellido}">
+                            </option>
+                        </select>
                     </div>
-
-                </div>
-                <div th:if="${ticket.estado.nombre=='Resuelto'}">
-                    <div class="botones">
-                        <a th:href="@{/generar-pdf/{id}(id=${ticket.id})}" class="btn btn-primary">Generar PDF</a>
-                    </div>
-                </div>
+                    <button type="submit">Asignar al tecnico</button>
+                </form>
             </div>
         </div>
-    </div>
-    <div th:fragment="script">
-        <link href="/css/EstiloMisTickets.css" rel="stylesheet" th:href="@{/css/EstiloMisTickets.css}">
-    </div>
+        <div th:fragment="script">
+            <link href="/css/ticketAdministrador.css" rel="stylesheet" th:href="@{/css/ticketAdministrador.css}">
+        </div>
+    </th:block>
 </body>
 
 </html>
