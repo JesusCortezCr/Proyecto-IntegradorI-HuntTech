@@ -14,6 +14,7 @@
 /* Reset */
 * {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -29,16 +30,34 @@ body {
   flex-direction: column;
 }
 
-/* Titles */
+/* Titles con animación de escritura */
 h1 {
   text-align: center;
   color: var(--primary-color);
-  margin: 1.5rem 0;
-  font-size: 2rem;
+  margin: 1.5rem 0 3rem 0;
+  font-size: 2.2rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   position: relative;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-right: 2px solid var(--secondary-color);
+  animation: typewriter 2s steps(20) 0.5s forwards;
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+    border-right: none;
+  }
 }
 
 h1::after {
@@ -47,92 +66,199 @@ h1::after {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
+  width: 0;
   height: 3px;
-  background-color: var(--secondary-color);
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+  animation: underlineExpand 1s ease-out 2.5s forwards;
+}
+
+@keyframes underlineExpand {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 80px;
+  }
 }
 
 /* Container */
 [th\:fragment="content"] {
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
+  animation: containerSlideIn 1s ease-out;
 }
 
-/* Tickets */
+@keyframes containerSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Sort button container */
+div[style*="margin-bottom: 20px"] {
+  text-align: center;
+  margin-bottom: 2rem !important;
+  animation: fadeInUp 1s ease-out 1s both;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tickets Container - Grid Layout */
 .tickets-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra las tarjetas */
-  gap: 1rem;
-  margin: 20px;
-}
-
-.tickets-container > .ticket-card {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  animation: fadeIn 0.5s ease-out;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem;
+  animation: fadeIn 0.8s ease-out 1.5s both;
 }
 
 /* Ticket Card */
 .ticket-card {
+  background: var(--light-text);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 
+    0 8px 25px var(--shadow),
+    0 2px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border-color);
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 2px 5px var(--shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
+  animation: formSlideIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes formSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ticket-card:nth-child(1) { animation-delay: 2s; }
+.ticket-card:nth-child(2) { animation-delay: 2.1s; }
+.ticket-card:nth-child(3) { animation-delay: 2.2s; }
+.ticket-card:nth-child(4) { animation-delay: 2.3s; }
+.ticket-card:nth-child(n+5) { animation-delay: 2.4s; }
+
+/* Efecto decorativo en las cards */
+.ticket-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Efecto de brillo en las cards */
+.ticket-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(58, 98, 89, 0.05), transparent);
+  animation: shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 .ticket-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px var(--shadow);
+  transform: translateY(-8px);
+  box-shadow: 
+    0 15px 40px var(--shadow),
+    0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 .ticket-title {
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--primary-color);
-  margin-bottom: 0.3rem;
-  padding: 0.8rem 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--light-text);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  margin: 0;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .ticket-empresa {
-  font-weight: 500;
-  color: var(--dark-accent);
-  margin-bottom: 0.8rem;
-  padding: 0 1rem 0.8rem;
-  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+  color: var(--primary-color);
+  margin: 0;
+  padding: 1rem 1.5rem 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+  background: linear-gradient(135deg, rgba(58, 98, 89, 0.05), rgba(201, 165, 92, 0.05));
+  font-size: 1rem;
 }
 
 .ticket-detail {
-  margin-bottom: 0.5rem;
-  padding: 0 1rem;
+  margin-bottom: 0.8rem;
+  padding: 0.3rem 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .ticket-label {
-  font-weight: bold;
+  font-weight: 600;
   color: var(--primary-color);
   font-size: 0.9rem;
-  margin-right: 0.5rem;
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.ticket-detail span:last-child {
+  color: var(--dark-accent);
+  font-weight: 500;
+  flex: 1;
 }
 
 /* Botones */
 .botones {
-  display: flex;
-  gap: 0.8rem;
-  margin-top: 1rem;
-  padding: 0.8rem 1rem;
-  border-top: 1px solid var(--border-color);
-  flex-wrap: wrap;
+  margin-top: auto;
+  padding: 1.5rem;
+  border-top: 2px solid var(--border-color);
+  background: linear-gradient(135deg, rgba(58, 98, 89, 0.02), rgba(201, 165, 92, 0.02));
 }
 
 .btn {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
@@ -140,56 +266,99 @@ h1::after {
   font-size: 0.8rem;
   letter-spacing: 0.5px;
   text-decoration: none;
-  flex: 1 1 auto;
   text-align: center;
-  min-width: 100px; /* Tamaño mínimo */
-  max-width: 120px; /* Tamaño máximo */
+  display: inline-block;
+  border: none;
+  position: relative;
+  overflow: hidden;
 }
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+  z-index: 0;
+}
+
+.btn:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
 .btn[href*="orden=prioridad"] {
-  min-width: 200px;
-  max-width: 250px;
-  padding: 0.7rem 1.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 0.9rem;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: auto;
+  min-width: 250px;
+  white-space: nowrap;
+  overflow: visible;
+  animation: buttonsSlideUp 1s ease-out 1.2s both;
+}
+
+@keyframes buttonsSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .btn[href*="generar-informe"] {
-  min-width: 300px;
-  max-width: 400px;
-  padding: 0.7rem 2rem;
+  padding: 0.8rem 2rem;
   margin: 0 auto;
   display: block;
-  width: auto;
+  width: fit-content;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-
 .btn-primary {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), #2d4d47);
   color: white;
-  border: none;
-  margin: 0 0 0 2rem ;
+  box-shadow: 0 4px 12px rgba(58, 98, 89, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #2d4d47;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(58, 98, 89, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-danger {
-  background-color: #e74c3c;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
-  border: none;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
 }
 
 .btn-danger:hover {
   background-color: #c0392b;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.form-select{
-    border-radius: 8px;
-    background-color: var(--primary-color);
-    color: white;
-    cursor: pointer;
+.form-select {
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s;
 }
-.form-select :hover{
+
+.form-select:hover {
   background-color: #2d4d47;
 }
 
@@ -198,7 +367,7 @@ h1::after {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -210,11 +379,10 @@ h1::after {
   flex: 1;
 }
 
-
 .prioridad-section form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
   width: 100%;
   max-width: 250px;
 }
@@ -222,16 +390,16 @@ h1::after {
 /* Sección de acciones (derecha) */
 .acciones-section {
   display: flex;
-  gap: 0.8rem;
+  gap: 1rem;
   align-items: flex-start;
   margin-top: 0;
-  height: 38px; /* Altura igual al select */
-  align-items: center; /* Centra verticalmente los botones */
+  height: 42px;
+  align-items: center;
 }
 
 /* Ajustar altura de botones para que coincidan con el select */
 .acciones-section .btn {
-  height: 38px;
+  height: 42px;
   display: flex;  
   align-items: center;
   justify-content: center;
@@ -239,9 +407,19 @@ h1::after {
   max-width: 120px;
 }
 
-/* Estados */
-.ticket-detail:nth-child(4) span:nth-child(2) {
+/* Estados con colores */
+.ticket-detail:has(span:contains("En Espera")) span:last-child {
   color: var(--status-pending);
+  font-weight: 600;
+}
+
+.ticket-detail:has(span:contains("Resuelto")) span:last-child {
+  color: var(--status-completed);
+  font-weight: 600;
+}
+
+.ticket-detail:has(span:contains("Rechazado")) span:last-child {
+  color: var(--status-cancelled);
   font-weight: 600;
 }
 
@@ -249,7 +427,16 @@ h1::after {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -258,26 +445,38 @@ h1::after {
 }
 
 /* Responsivo */
-@media (max-width: 992px) {
-  .tickets-container > .ticket-card {
-    width: 100%;
-    margin-left: 0;
+@media (max-width: 1200px) {
+  .tickets-container {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .btn {
-    flex: 1 1 calc(50% - 0.4rem);
+  .tickets-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+  
+  .ticket-card {
+    margin: 0 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
   }
   
   .botones-container {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
   }
   
   .acciones-section {
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 0;
     height: auto;
   }
   
@@ -289,25 +488,31 @@ h1::after {
 @media (max-width: 480px) {
   h1 {
     font-size: 1.6rem;
+    letter-spacing: 1px;
   }
 
-  .botones {
+  .ticket-detail {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.2rem;
   }
-
-  .btn {
-    width: 100%;
+  
+  .ticket-label {
+    min-width: auto;
   }
   
   .acciones-section {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.8rem;
   }
   
   .acciones-section .btn {
     width: 100%;
     max-width: none;
-    height: 38px;
+    height: 42px;
+  }
+  
+  .tickets-container {
+    grid-template-columns: 1fr;
+    padding: 0 0.5rem;
   }
 }
