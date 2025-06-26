@@ -1,5 +1,7 @@
 package com.proyecto.integrador1.proyecto_integrador.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -68,6 +70,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Usa el método del repositorio que carga empresa y rol
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+    }
+
+    @Override
+    public void guardarTecnico(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public List<Usuario> listaTecnicos(Long empresaId) {
+        return usuarioRepository.listaTecnicos(empresaId);
+    }
+
+    @Override
+    public void eliminarTecnicoPorId(Long id) {
+        usuarioRepository.deleteById(id);
     }
 
 }

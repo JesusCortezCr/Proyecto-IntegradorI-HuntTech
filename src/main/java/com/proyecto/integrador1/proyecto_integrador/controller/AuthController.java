@@ -1,13 +1,18 @@
 package com.proyecto.integrador1.proyecto_integrador.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,13 +25,20 @@ import com.proyecto.integrador1.proyecto_integrador.entities.Dispositivo;
 import com.proyecto.integrador1.proyecto_integrador.entities.Empresa;
 import com.proyecto.integrador1.proyecto_integrador.entities.Estado;
 import com.proyecto.integrador1.proyecto_integrador.entities.InformeIncidencia;
+import com.proyecto.integrador1.proyecto_integrador.entities.Rol;
 import com.proyecto.integrador1.proyecto_integrador.entities.Ticket;
 import com.proyecto.integrador1.proyecto_integrador.entities.TipoPrioridad;
 import com.proyecto.integrador1.proyecto_integrador.entities.Usuario;
 import com.proyecto.integrador1.proyecto_integrador.repositories.EmpresaRepository;
+import com.proyecto.integrador1.proyecto_integrador.repositories.RolRepository;
 import com.proyecto.integrador1.proyecto_integrador.repositories.TicketRepository;
+import com.proyecto.integrador1.proyecto_integrador.repositories.TipoPrioridadRepository;
 import com.proyecto.integrador1.proyecto_integrador.repositories.UsuarioRepository;
+import com.proyecto.integrador1.proyecto_integrador.services.CategoriaSolicitudService;
+import com.proyecto.integrador1.proyecto_integrador.services.DispositivoService;
 import com.proyecto.integrador1.proyecto_integrador.services.InformeIncidenciaService;
+import com.proyecto.integrador1.proyecto_integrador.services.PdfGeneratorService;
+import com.proyecto.integrador1.proyecto_integrador.services.RolService;
 import com.proyecto.integrador1.proyecto_integrador.services.TicketService;
 import com.proyecto.integrador1.proyecto_integrador.services.UsuarioService;
 
@@ -35,6 +47,9 @@ public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+        @Autowired
+private PdfGeneratorService pdfGeneratorService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -46,7 +61,22 @@ public class AuthController {
     private EmpresaRepository empresaRepository;
 
     @Autowired
+    private RolRepository rolRepository;
+
+    @Autowired
     private InformeIncidenciaService informeIncidenciaService;
+
+    @Autowired
+    private RolService rolService;
+
+    @Autowired
+    private CategoriaSolicitudService categoriaSolicitudService;
+
+    @Autowired
+    private DispositivoService dispositivoService;
+
+    @Autowired
+    private TipoPrioridadRepository tipoPrioridadRepository;
 
     private final TicketRepository ticketRepository;
 
@@ -100,8 +130,10 @@ public class AuthController {
             model.addAttribute("usuario", usuario);
             if ("ROLE_CLIENTE".equals(usuario.getRol().getNombre())) {
                 return "HomeCliente";
-            } else if ("ROLE_ADMINISTRADOR".equals(usuario.getRol().getNombre())) {
+            } else if ("ROLE_TECNICO".equals(usuario.getRol().getNombre())) {
                 return "HomeAdministrador";
+            } else if ("ROLE_ADMINISTRADOR".equals(usuario.getRol().getNombre())) {
+                return "PrincipalAdministrador";
             }
         }
         return "HomeCliente";
@@ -114,6 +146,12 @@ public class AuthController {
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
             model.addAttribute("usuario", usuario);
         }
+        List<TipoPrioridad> tiposPrioridad = tipoPrioridadRepository.findAll();
+        List<Dispositivo> dispositivos = dispositivoService.traerDispositivos();
+        List<CategoriaSolicitud> categorias = categoriaSolicitudService.findAllCategoriasSolicitud();
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("dispositivos", dispositivos);
+        model.addAttribute("prioridades", tiposPrioridad);
         model.addAttribute("ticket", new Ticket());
 
         //
@@ -122,12 +160,13 @@ public class AuthController {
 
     //
     @PostMapping("/generar-ticket")
-    public String guardarTicket(@RequestParam("descripcion") String descripcion,
+    public String guardarTicket(
+            @RequestParam("descripcion") String descripcion,
             @RequestParam("direccion") String direccion,
             @RequestParam("dispositivoId") Long dispositivoId,
             @RequestParam("categoriaId") Long categoriaId,
-            @RequestParam("prioridadId") Long prioridadId,
             Principal principal) {
+
         if (principal == null)
             return "redirect:/login";
 
@@ -136,8 +175,11 @@ public class AuthController {
 
         Dispositivo dispositivo = ticketService.obtenerDispositivoPorId(dispositivoId);
         CategoriaSolicitud categoria = ticketService.obtenerCategoriaPorId(categoriaId);
-        TipoPrioridad prioridad = ticketService.obtenerPrioridadPorId(prioridadId);
         Estado estado = ticketService.obtenerEstadoPorNombre("En Espera");
+
+        // Lógica para asignar prioridad según categoría
+        TipoPrioridad prioridad = determinarPrioridadPorCategoria(categoria);
+
         Ticket ticket = new Ticket();
         ticket.setDescripcion(descripcion);
         ticket.setDireccion(direccion);
@@ -145,12 +187,25 @@ public class AuthController {
         ticket.setUsuario(usuario);
         ticket.setDispositivo(dispositivo);
         ticket.setCategoria(categoria);
-        ticket.setPrioridad(prioridad);
+        ticket.setPrioridad(prioridad); // Prioridad asignada automáticamente
         ticket.setEstado(estado);
-
+        ticket.setTecnico_id(0L);
         ticketService.guardarTicket(ticket);
-
         return "redirect:/";
+    }
+
+    // Método auxiliar para definir prioridades
+    private TipoPrioridad determinarPrioridadPorCategoria(CategoriaSolicitud categoria) {
+        Long categoriaId = categoria.getId();
+
+        // Prioridades según categoría (ajusta según tus reglas)
+        if (categoriaId == 2L) { // 2 = Red → Urgente (3)
+            return ticketService.obtenerPrioridadPorId(3L);
+        } else if (categoriaId == 4L || categoriaId == 7L) { // 4 = Acceso y seguridad, 7 = Plataforma → Alta (2)
+            return ticketService.obtenerPrioridadPorId(2L);
+        } else { // Resto → Normal (1)
+            return ticketService.obtenerPrioridadPorId(1L);
+        }
     }
 
     @GetMapping("/mis-tickets")
@@ -164,7 +219,7 @@ public class AuthController {
     }
 
     @GetMapping("/tickets-administrador")
-    public String mostrarTicketsAdministrador(@RequestParam(required = false) String orden, Model model,
+    public String mostrarTicketsTecnico(@RequestParam(required = false) String orden, Model model,
             Principal principal) {
         Usuario usuario = usuarioRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
@@ -172,7 +227,7 @@ public class AuthController {
         if ("prioridad".equals(orden)) {
             tickets = ticketService.obtenerTicketsOrdenadosPorPrioridad(usuario.getEmpresa().getNombreEmpresa());
         } else {
-            tickets = ticketService.obtenerTodosTicketsPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
+            tickets = ticketService.obtenerTicketsPorUniversidadPorTecnico(usuario.getEmpresa().getNombreEmpresa(), usuario.getId());
         }
         model.addAttribute("tickets", tickets);
         model.addAttribute("usuario", usuario);
@@ -371,26 +426,132 @@ public class AuthController {
 
     }
 
-    /**
-     * @GetMapping("/tickets-administrador")
-     * public String mostrarTicketsAdministrador(@RequestParam(required = false)
-     * String orden, Model model,
-     * Principal principal) {
-     * Usuario usuario = usuarioRepository.findByEmail(principal.getName())
-     * .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-     * List<Ticket> tickets;
-     * if ("prioridad".equals(orden)) {
-     * tickets =
-     * ticketService.obtenerTicketsOrdenadosPorPrioridad(usuario.getEmpresa().getNombreEmpresa());
-     * } else {
-     * tickets =
-     * ticketService.obtenerTodosTicketsPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
-     * }
-     * model.addAttribute("tickets", tickets);
-     * model.addAttribute("usuario", usuario);
-     * model.addAttribute("informeService", informeIncidenciaService);
-     * return "TicketsGenerados";
-     * }
-     */
+    @GetMapping("/mantenimiento-tecnicos")
+    public String mostrarMantenimientoTecnicos(Model model, Principal principal) {
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        Usuario tecnico = new Usuario();
+        List<Usuario> tecnicos = usuarioService.listaTecnicos(usuario.getEmpresa().getId());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("tecnico", tecnico);
+        model.addAttribute("tecnicos", tecnicos);
+
+        return "MantenimientoTecnicos";
+
+    }
+
+    @GetMapping("/agregar-tecnico")
+    public String mostrarAgregarTecnico(Model model, Principal principal) {
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        Usuario tecnico = new Usuario();
+        model.addAttribute("tecnico", tecnico);
+        model.addAttribute("usuario", usuario);
+        return "AgregarTecnico";
+
+    }
+
+    @PostMapping("/agregar-tecnico")
+    public String agregarTecnico(@ModelAttribute("tecnico") Usuario tecnicoRecibo,
+            Principal principal) {
+
+        Usuario usuarioActual = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        Rol rolTecnico = rolRepository.findById(2L)
+                .orElseGet(() -> {
+                    Rol nuevoRol = new Rol();
+                    nuevoRol.setId(2L);
+                    nuevoRol.setNombre("ROLE_TECNICO");
+                    return rolRepository.save(nuevoRol);
+                });
+
+        tecnicoRecibo.setRol(rolTecnico);
+        tecnicoRecibo.setEmpresa(usuarioActual.getEmpresa());
+        usuarioService.guardarTecnico(tecnicoRecibo);
+        return "redirect:/mantenimiento-tecnicos";
+    }
+
+    @PostMapping("eliminar-tecnico/{id}")
+    public String eliminarTecnico(@PathVariable Long id) {
+        usuarioService.eliminarTecnicoPorId(id);
+        return "redirect:/mantenimiento-tecnicos";
+    }
+
+    @GetMapping("/mostrar-lista-asignar-tickets")
+    public String mostrarListaAsignarTickets(@RequestParam(required = false) String orden, Principal principal,
+            Model model) {
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        List<Ticket> tickets;
+        tickets = ticketService.obtenerTodosTicketsPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
+        // Traer lista de tecnicos de esa empresa
+        List<Usuario> tecnicos = usuarioService.listaTecnicos(usuario.getEmpresa().getId());
+        model.addAttribute("tickets", tickets);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("tecnicos", tecnicos);
+        return "AsignarTicket";
+    }
+
+    @GetMapping("/gestion-tipo-incidencias")
+    public String mostrarGestionTipoIncidencias(Principal principal, Model model) {
+        Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        List<CategoriaSolicitud> categorias = categoriaSolicitudService.findAllCategoriasSolicitud();
+        List<Dispositivo> dispositivos = dispositivoService.traerDispositivos();
+        Dispositivo dispositivo = new Dispositivo();
+        model.addAttribute("dispositivos", dispositivos);
+        model.addAttribute("dispositivo", dispositivo);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("categorias", categorias);
+        return "GestionTipoIncidencias";
+    }
+
+    @PostMapping("/guardar-dispositivo")
+    public String guardarDispositivo(@ModelAttribute("dispositivo") Dispositivo dispositivoRecibido) {
+        dispositivoService.guardarDispositivo(dispositivoRecibido);
+        return "redirect:/gestion-tipo-incidencias";
+    }
+
+    @PostMapping("/asignar-tecnico")
+    public String asignarTecnico(
+            @RequestParam("ticketId") Long ticketId,
+            @RequestParam("tecnicoId") Long tecnicoId) {
+
+        // Obtener el ticket
+        Ticket ticket = ticketService.obtenerTicketPorId(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+
+        // Asignar el técnico
+        ticket.setTecnico_id(tecnicoId);
+
+        // Guardar los cambios
+        ticketService.guardarTicket(ticket);
+
+        return "redirect:/mostrar-lista-asignar-tickets";
+    }
+
+
+
+@GetMapping("/generar-pdf/{ticketId}")
+public ResponseEntity<byte[]> generarPdfTicket(@PathVariable Long ticketId) {
+    try {
+        Ticket ticket = ticketService.obtenerTicketPorId(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+        
+        byte[] pdfBytes = pdfGeneratorService.generatePdfFromTicket(ticket);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", "reporte-ticket-" + ticketId + ".pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
+    } catch (IOException e) {
+        throw new RuntimeException("Error al generar el PDF", e);
+    }
+}
 
 }

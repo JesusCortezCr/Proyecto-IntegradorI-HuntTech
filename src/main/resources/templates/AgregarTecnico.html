@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Tecnico</title>
+</head>
+
+<body>
+    <th:block th:fragment="content">
+        <div class="contenedor-agregar-tecnico">
+            <form th:action="@{/agregar-tecnico}" th:object="${tecnico}" method="post">
+
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Ingrese nombre</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Manuel Carlos" th:field="*{nombre}">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput2" class="form-label">Ingrese apellido</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Merino Cornejo" th:field="*{apellido}">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput3" class="form-label">Ingrese DNI</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="75181176" th:field="*{dniUsuario}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Empresa</label>
+                    <input type="text" class="form-control"  th:value="${usuario.empresa.nombreEmpresa}" readonly >
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput4" class="form-label">Ingrese Correo</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="manuel@gmail.com" th:field="*{email}">
+                </div>
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="inputPassword6" class="col-form-label">Contraseña</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="password" id="inputPassword6" class="form-control"
+                            aria-describedby="passwordHelpInline" th:field="*{password}">
+                    </div>
+                    <div class="col-auto">
+                        <span id="passwordHelpInline" class="form-text">
+                            Debe ser de 8 a 20 caracteres
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </th:block>
+</body>
+
+</html>

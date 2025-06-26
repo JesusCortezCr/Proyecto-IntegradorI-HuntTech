@@ -64,5 +64,8 @@ public class Ticket {
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL,orphanRemoval = true)
     private Reporte reporte;
 
+    @Column(name = "tecnico_id")
+    private Long tecnico_id;
+
     
 }

@@ -115,4 +115,9 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.obtenerTicketOrdenadosPorPrioridad(universidad);
     }
 
+    @Override
+    public List<Ticket> obtenerTicketsPorUniversidadPorTecnico(String nombreUniversidad, Long tecnicoId) {
+        return ticketRepository.obtenerTicketsPorUniversidadPorTecnico(nombreUniversidad, tecnicoId);
+    }
+
 }

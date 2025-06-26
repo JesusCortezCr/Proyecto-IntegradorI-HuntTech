@@ -51,29 +51,30 @@
                         <div id="direccionError" class="error-message">El formato debe ser: SJL-UTP-A0304 (3 letras
                             mayúsculas, guión, 3 letras mayúsculas, guión, 5 caracteres alfanuméricos)</div>
                     </div>
+                    <!---
+<div class="mb-3">
+    <label for="prioridad" class="form-label">Prioridad:</label>
+    <select name="prioridadId" class="form-select" id="prioridad" required>
+        <option value="">Seleccione una prioridad</option>
+        <option value="1">Normal</option>
+        <option value="2">Alta</option>
+        <option value="3">Urgente</option>
+    </select>
+    <div id="prioridadError" class="error-message">Por favor seleccione una prioridad</div>
+</div>
 
-                    <!-- Prioridad -->
+-->
                     <div class="mb-3">
-                        <label for="prioridad" class="form-label">Prioridad:</label>
-                        <select name="prioridadId" class="form-select" id="prioridad" required>
-                            <option value="">Seleccione una prioridad</option>
-                            <option value="1">Normal</option>
-                            <option value="2">Alta</option>
-                            <option value="3">Urgente</option>
-                        </select>
-                        <div id="prioridadError" class="error-message">Por favor seleccione una prioridad</div>
+                        <label class="form-label">Prioridad asignada:</label>
+                        <span class="form-control-plaintext" id="prioridadAsignada">Se determinará
+                            automáticamente</span>
                     </div>
-
                     <!-- Categoría -->
                     <div class="mb-3">
                         <label for="categoria" class="form-label">Categoría de la solicitud:</label>
                         <select name="categoriaId" class="form-select" id="categoria" required>
-                            <option value="">Seleccione una categoría</option>
-                            <option value="1">Hardware</option>
-                            <option value="2">Software</option>
-                            <option value="3">Redes</option>
-                            <option value="4">Soporte Tecnico</option>
-                            <option value="5">Consultas</option>
+                            <option value="" disabled selected>Seleccione una categoria</option>
+                            <option th:each="cat : ${categorias}" th:value="${cat.id}" th:text="${cat.nombre}"></option>
                         </select>
                         <div id="categoriaError" class="error-message">Por favor seleccione una categoría</div>
                     </div>
@@ -88,15 +89,9 @@
                     <div class="mb-3">
                         <label for="dispositivo" class="form-label">Dispositivo:</label>
                         <select name="dispositivoId" class="form-select" id="dispositivo" required>
-                            <option value="">Seleccione un dispositivo</option>
-                            <option value="1">Laptop</option>
-                            <option value="2">Desktop</option>
-                            <option value="3">Impresora</option>
-                            <option value="4">Telefono</option>
-                            <option value="5">Tablet</option>
-                            <option value="6">Servidor</option>
-                            <option value="7">Switch</option>
-                            <option value="8">Router</option>
+                            <option value="" disabled selected>Seleccione un dispositivo</option>
+                            <option th:each="dis : ${dispositivos}" th:value="${dis.id}" th:text="${dis.nombre}">
+                            </option>
                         </select>
                         <div id="dispositivoError" class="error-message">Por favor seleccione un dispositivo</div>
                     </div>
@@ -118,135 +113,149 @@
                 </form>
             </div>
         </div>
-        </div>
-        <div th:fragment="script">
-            <link href="/css/EstiloGenerarTicket.css" rel="stylesheet" th:href="@{/css/EstiloGenerarTicket.css}">
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    // Configurar event listeners para validación en tiempo real
-                    document.getElementById('direccion').addEventListener('input', validarDireccion);
-                    document.getElementById('prioridad').addEventListener('change', validarPrioridad);
-                    document.getElementById('categoria').addEventListener('change', validarCategoria);
-                    document.getElementById('dispositivo').addEventListener('change', validarDispositivo);
-                    document.getElementById('descripcion').addEventListener('input', validarDescripcion);
-                });
+    </div>
+    <div th:fragment="script">
+        <link href="/css/EstiloGenerarTicket.css" rel="stylesheet" th:href="@{/css/EstiloGenerarTicket.css}">
+        <script>
+            document.getElementById('categoria').addEventListener('change', function () {
+                const categoriaId = this.value;
+                const prioridadSpan = document.getElementById('prioridadAsignada');
 
-                function validarDireccion() {
-                    const direccion = document.getElementById('direccion');
-                    const error = document.getElementById('direccionError');
-                    const regex = /^[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}$/;
+                // Misma lógica que en el backend (puedes usar un objeto para mapear)
+                const prioridades = {
+                    '2': 'Urgente (3)',
+                    '4': 'Alta (2)',
+                    '7': 'Alta (2)',
+                    'default': 'Normal (1)'
+                };
 
-                    if (!regex.test(direccion.value)) {
-                        direccion.classList.add('invalid');
-                        direccion.classList.remove('valid');
-                        error.style.display = 'block';
-                        return false;
-                    } else {
-                        direccion.classList.add('valid');
-                        direccion.classList.remove('invalid');
-                        error.style.display = 'none';
-                        return true;
-                    }
-                }
+                prioridadSpan.textContent = prioridades[categoriaId] || prioridades['default'];
+            });
+            document.addEventListener('DOMContentLoaded', function () {
+                // Configurar event listeners para validación en tiempo real
+                document.getElementById('direccion').addEventListener('input', validarDireccion);
+                document.getElementById('prioridad').addEventListener('change', validarPrioridad);
+                document.getElementById('categoria').addEventListener('change', validarCategoria);
+                document.getElementById('dispositivo').addEventListener('change', validarDispositivo);
+                document.getElementById('descripcion').addEventListener('input', validarDescripcion);
+            });
 
-                function validarPrioridad() {
-                    const prioridad = document.getElementById('prioridad');
-                    const error = document.getElementById('prioridadError');
+            function validarDireccion() {
+                const direccion = document.getElementById('direccion');
+                const error = document.getElementById('direccionError');
+                const regex = /^[A-Z]{3}-[A-Z]{3}-[A-Z0-9]{5}$/;
 
-                    if (prioridad.value === "") {
-                        prioridad.classList.add('invalid');
-                        prioridad.classList.remove('valid');
-                        error.style.display = 'block';
-                        return false;
-                    } else {
-                        prioridad.classList.add('valid');
-                        prioridad.classList.remove('invalid');
-                        error.style.display = 'none';
-                        return true;
-                    }
-                }
-
-                function validarCategoria() {
-                    const categoria = document.getElementById('categoria');
-                    const error = document.getElementById('categoriaError');
-
-                    if (categoria.value === "") {
-                        categoria.classList.add('invalid');
-                        categoria.classList.remove('valid');
-                        error.style.display = 'block';
-                        return false;
-                    } else {
-                        categoria.classList.add('valid');
-                        categoria.classList.remove('invalid');
-                        error.style.display = 'none';
-                        return true;
-                    }
-                }
-
-                function validarDispositivo() {
-                    const dispositivo = document.getElementById('dispositivo');
-                    const error = document.getElementById('dispositivoError');
-
-                    if (dispositivo.value === "") {
-                        dispositivo.classList.add('invalid');
-                        dispositivo.classList.remove('valid');
-                        error.style.display = 'block';
-                        return false;
-                    } else {
-                        dispositivo.classList.add('valid');
-                        dispositivo.classList.remove('invalid');
-                        error.style.display = 'none';
-                        return true;
-                    }
-                }
-
-                function validarDescripcion() {
-                    const descripcion = document.getElementById('descripcion');
-                    const error = document.getElementById('descripcionError');
-
-                    if (descripcion.value.length < 20 || descripcion.value.length > 500) {
-                        descripcion.classList.add('invalid');
-                        descripcion.classList.remove('valid');
-                        error.style.display = 'block';
-                        return false;
-                    } else {
-                        descripcion.classList.add('valid');
-                        descripcion.classList.remove('invalid');
-                        error.style.display = 'none';
-                        return true;
-                    }
-                }
-
-                function validarFormulario() {
-                    const valido =
-                        validarDireccion() &
-                        validarPrioridad() &
-                        validarCategoria() &
-                        validarDispositivo() &
-                        validarDescripcion();
-
-                    if (!valido) {
-                        // Mostrar todos los errores si hay campos inválidos
-                        const campos = ['direccion', 'prioridad', 'categoria', 'dispositivo', 'descripcion'];
-                        campos.forEach(campo => {
-                            const input = document.getElementById(campo);
-                            if (input.classList.contains('invalid')) {
-                                document.getElementById(`${campo}Error`).style.display = 'block';
-                            }
-                        });
-
-                        // Enfocar el primer campo con error
-                        const primerError = document.querySelector('.invalid');
-                        if (primerError) {
-                            primerError.focus();
-                        }
-
-                        return false;
-                    }
+                if (!regex.test(direccion.value)) {
+                    direccion.classList.add('invalid');
+                    direccion.classList.remove('valid');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    direccion.classList.add('valid');
+                    direccion.classList.remove('invalid');
+                    error.style.display = 'none';
                     return true;
                 }
-            </script>
-        </div>
+            }
+
+            function validarPrioridad() {
+                const prioridad = document.getElementById('prioridad');
+                const error = document.getElementById('prioridadError');
+
+                if (prioridad.value === "") {
+                    prioridad.classList.add('invalid');
+                    prioridad.classList.remove('valid');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    prioridad.classList.add('valid');
+                    prioridad.classList.remove('invalid');
+                    error.style.display = 'none';
+                    return true;
+                }
+            }
+
+            function validarCategoria() {
+                const categoria = document.getElementById('categoria');
+                const error = document.getElementById('categoriaError');
+
+                if (categoria.value === "") {
+                    categoria.classList.add('invalid');
+                    categoria.classList.remove('valid');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    categoria.classList.add('valid');
+                    categoria.classList.remove('invalid');
+                    error.style.display = 'none';
+                    return true;
+                }
+            }
+
+            function validarDispositivo() {
+                const dispositivo = document.getElementById('dispositivo');
+                const error = document.getElementById('dispositivoError');
+
+                if (dispositivo.value === "") {
+                    dispositivo.classList.add('invalid');
+                    dispositivo.classList.remove('valid');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    dispositivo.classList.add('valid');
+                    dispositivo.classList.remove('invalid');
+                    error.style.display = 'none';
+                    return true;
+                }
+            }
+
+            function validarDescripcion() {
+                const descripcion = document.getElementById('descripcion');
+                const error = document.getElementById('descripcionError');
+
+                if (descripcion.value.length < 20 || descripcion.value.length > 500) {
+                    descripcion.classList.add('invalid');
+                    descripcion.classList.remove('valid');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    descripcion.classList.add('valid');
+                    descripcion.classList.remove('invalid');
+                    error.style.display = 'none';
+                    return true;
+                }
+            }
+
+            function validarFormulario() {
+                const valido =
+                    validarDireccion() &
+                    validarPrioridad() &
+                    validarCategoria() &
+                    validarDispositivo() &
+                    validarDescripcion();
+
+                if (!valido) {
+                    // Mostrar todos los errores si hay campos inválidos
+                    const campos = ['direccion', 'prioridad', 'categoria', 'dispositivo', 'descripcion'];
+                    campos.forEach(campo => {
+                        const input = document.getElementById(campo);
+                        if (input.classList.contains('invalid')) {
+                            document.getElementById(`${campo}Error`).style.display = 'block';
+                        }
+                    });
+
+                    // Enfocar el primer campo con error
+                    const primerError = document.querySelector('.invalid');
+                    if (primerError) {
+                        primerError.focus();
+                    }
+
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </div>
 </body>
 
 </html>

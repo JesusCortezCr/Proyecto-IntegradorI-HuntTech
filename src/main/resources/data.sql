@@ -31,8 +31,8 @@ INSERT IGNORE INTO ESTADO (NOMBRE_ESTADO) VALUES
 ('Rechazado');
 -- Insertar tipos de prioridad solo si no existen
 INSERT IGNORE INTO TIPO_PRIORIDAD (NOMBRE_TIPO_PRIORIDAD) VALUES 
+('Baja'),
 ('Normal'),
-('Alta'),
 ('Urgente');
 
 INSERT INTO usuarios (
