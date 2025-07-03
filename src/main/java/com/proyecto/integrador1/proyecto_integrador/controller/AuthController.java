@@ -354,6 +354,11 @@ private PdfGeneratorService pdfGeneratorService;
         Estado estadoResuelto = ticketService.obtenerEstadoPorNombre("Resuelto");
         ticket.setEstado(estadoResuelto);
         ticketService.guardarTicket(ticket);
+        //descontar un ticket al tecnico
+        Usuario tecnico = usuarioRepository.findById(ticket.getTecnico_id())
+                .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
+        tecnico.setCantidad_tickets(tecnico.getCantidad_tickets() - 1);
+        usuarioRepository.save(tecnico);
         return "redirect:/tickets-administrador";
 
     }
@@ -487,7 +492,7 @@ private PdfGeneratorService pdfGeneratorService;
         List<Ticket> tickets;
         tickets = ticketService.obtenerTodosTicketsPorUniversidad(usuario.getEmpresa().getNombreEmpresa());
         // Traer lista de tecnicos de esa empresa
-        List<Usuario> tecnicos = usuarioService.listaTecnicos(usuario.getEmpresa().getId());
+        List<Usuario> tecnicos = usuarioService.listaTecnicosDisponibles(usuario.getEmpresa().getId());
         model.addAttribute("tickets", tickets);
         model.addAttribute("usuario", usuario);
         model.addAttribute("tecnicos", tecnicos);
@@ -525,6 +530,13 @@ private PdfGeneratorService pdfGeneratorService;
 
         // Asignar el técnico
         ticket.setTecnico_id(tecnicoId);
+
+        //traer al tecnico y darle una actualizacion de cantidad de tickets
+        Usuario tecnico = usuarioRepository.findById(tecnicoId)
+                .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
+        tecnico.setCantidad_tickets(tecnico.getCantidad_tickets() + 1);
+        // Actualizar el técnico en la base de datos
+        usuarioRepository.save(tecnico);
 
         // Guardar los cambios
         ticketService.guardarTicket(ticket);
