@@ -54,6 +54,7 @@ h1 {
   0% {
     width: 0;
   }
+
   100% {
     width: 100%;
     border-right: none;
@@ -76,6 +77,7 @@ h1::after {
   0% {
     width: 0;
   }
+
   100% {
     width: 80px;
   }
@@ -96,6 +98,7 @@ h1::after {
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -114,6 +117,7 @@ div[style*="margin-bottom: 20px"] {
     opacity: 0;
     transform: translateY(15px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -134,7 +138,7 @@ div[style*="margin-bottom: 20px"] {
   background: var(--light-text);
   border-radius: 16px;
   padding: 0;
-  box-shadow: 
+  box-shadow:
     0 8px 25px var(--shadow),
     0 2px 10px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border-color);
@@ -150,17 +154,32 @@ div[style*="margin-bottom: 20px"] {
     opacity: 0;
     transform: translateY(20px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.ticket-card:nth-child(1) { animation-delay: 2s; }
-.ticket-card:nth-child(2) { animation-delay: 2.1s; }
-.ticket-card:nth-child(3) { animation-delay: 2.2s; }
-.ticket-card:nth-child(4) { animation-delay: 2.3s; }
-.ticket-card:nth-child(n+5) { animation-delay: 2.4s; }
+.ticket-card:nth-child(1) {
+  animation-delay: 2s;
+}
+
+.ticket-card:nth-child(2) {
+  animation-delay: 2.1s;
+}
+
+.ticket-card:nth-child(3) {
+  animation-delay: 2.2s;
+}
+
+.ticket-card:nth-child(4) {
+  animation-delay: 2.3s;
+}
+
+.ticket-card:nth-child(n+5) {
+  animation-delay: 2.4s;
+}
 
 /* Efecto decorativo en las cards */
 .ticket-card::before {
@@ -190,9 +209,11 @@ div[style*="margin-bottom: 20px"] {
   0% {
     left: -100%;
   }
+
   50% {
     left: 100%;
   }
+
   100% {
     left: 100%;
   }
@@ -200,7 +221,7 @@ div[style*="margin-bottom: 20px"] {
 
 .ticket-card:hover {
   transform: translateY(-8px);
-  box-shadow: 
+  box-shadow:
     0 15px 40px var(--shadow),
     0 5px 20px rgba(0, 0, 0, 0.15);
 }
@@ -309,6 +330,7 @@ div[style*="margin-bottom: 20px"] {
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -400,7 +422,7 @@ div[style*="margin-bottom: 20px"] {
 /* Ajustar altura de botones para que coincidan con el select */
 .acciones-section .btn {
   height: 42px;
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: center;
   min-width: 100px;
@@ -428,6 +450,7 @@ div[style*="margin-bottom: 20px"] {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -438,6 +461,7 @@ div[style*="margin-bottom: 20px"] {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -458,28 +482,28 @@ div[style*="margin-bottom: 20px"] {
     gap: 1.5rem;
     padding: 0;
   }
-  
+
   .ticket-card {
     margin: 0 0.5rem;
   }
-  
+
   h1 {
     font-size: 1.8rem;
     margin-bottom: 2rem;
   }
-  
+
   .botones-container {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-  
+
   .acciones-section {
     justify-content: center;
     margin-top: 0;
     height: auto;
   }
-  
+
   .prioridad-section form {
     max-width: 100%;
   }
@@ -495,24 +519,84 @@ div[style*="margin-bottom: 20px"] {
     flex-direction: column;
     gap: 0.2rem;
   }
-  
+
   .ticket-label {
     min-width: auto;
   }
-  
+
   .acciones-section {
     flex-direction: column;
     gap: 0.8rem;
   }
-  
+
   .acciones-section .btn {
     width: 100%;
     max-width: none;
     height: 42px;
   }
-  
+
   .tickets-container {
     grid-template-columns: 1fr;
     padding: 0 0.5rem;
   }
+}
+
+.estado-espera {
+  color: #856404;
+  background-color: #fff3cd;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.estado-rechazada {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.estado-resuelto {
+  color: #155724;
+  background-color: #d4edda;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.ticket-estado {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Estilos de prioridad */
+.ticket-prioridad {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.prioridad-baja {
+  color: #155724;
+  background-color: #7ed3e2;
+  /* verde claro */
+  border: 1px solid #c3e6cb;
+}
+
+.prioridad-normal {
+  color: #856404;
+  background-color: #dab029;
+  /* amarillo claro */
+  border: 1px solid #ffeeba;
+}
+
+.prioridad-urgente {
+  color: #721c24;
+  background-color: #ce1524;
+  /* rojo claro */
+  border: 1px solid #f5c6cb;
 }

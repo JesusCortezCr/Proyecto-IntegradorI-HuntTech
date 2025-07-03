@@ -24,8 +24,20 @@
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Estado:</span>
-                    <span th:text="${ticket.estado.nombre}">En Espera</span>
+
+                    <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + (
+        ${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' :
+        (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' :
+        (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : ''))
+      )">
+                        Estado
+                    </span>
+
+
                 </div>
+
+
+
                 <div class="ticket-detail">
                     <span class="ticket-label">Direccion:</span>
                     <span th:text="${ticket.direccion}">En Espera</span>

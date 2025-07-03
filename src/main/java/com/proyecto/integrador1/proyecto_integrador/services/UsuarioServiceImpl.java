@@ -88,4 +88,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    @Override
+    public List<Usuario> listaTecnicosDisponibles(Long empresaId) {
+        return usuarioRepository.listaTecnicosDisponibles(empresaId);
+    }
+
 }

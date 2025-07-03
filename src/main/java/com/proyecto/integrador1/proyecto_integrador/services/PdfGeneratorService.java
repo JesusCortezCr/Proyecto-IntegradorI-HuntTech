@@ -2,6 +2,10 @@ package com.proyecto.integrador1.proyecto_integrador.services;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -20,19 +24,31 @@ public class PdfGeneratorService {
     private SpringTemplateEngine templateEngine; // usa el que Spring ya configuró
 
     public byte[] generatePdfFromTicket(Ticket ticket) throws IOException {
-        Context context = new Context();
-        context.setVariable("ticket", ticket);
+    Context context = new Context();
+    context.setVariable("ticket", ticket);
 
-        String html = templateEngine.process("reporte-ticket", context); // nombre sin extensión
+    // Ruta absoluta o relativa del logo en tu proyecto
+    String logoPath = "src/main/resources/static/IMG/logoHuntech.png";
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        PdfRendererBuilder builder = new PdfRendererBuilder();
-        builder.useFastMode();
-        builder.withHtmlContent(html, null);
-        builder.toStream(baos);
-        builder.run();
-
-        return baos.toByteArray();
+    try {
+        byte[] imageBytes = Files.readAllBytes(Paths.get(logoPath));
+        String base64Logo = Base64.getEncoder().encodeToString(imageBytes);
+        context.setVariable("logoBase64", base64Logo);
+    } catch (IOException e) {
+        // En caso de error, puedes dejar un string vacío
+        context.setVariable("logoBase64", "");
     }
+
+    String html = templateEngine.process("reporte-ticket", context); // sin .html
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    PdfRendererBuilder builder = new PdfRendererBuilder();
+    builder.useFastMode();
+    builder.withHtmlContent(html, null);
+    builder.toStream(baos);
+    builder.run();
+
+    return baos.toByteArray();
+}
 }

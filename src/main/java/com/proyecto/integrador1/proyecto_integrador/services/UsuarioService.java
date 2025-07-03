@@ -2,6 +2,7 @@ package com.proyecto.integrador1.proyecto_integrador.services;
 
 import java.util.List;
 
+
 import com.proyecto.integrador1.proyecto_integrador.entities.Usuario;
 
 public interface UsuarioService {
@@ -12,5 +13,6 @@ public interface UsuarioService {
     void guardarTecnico(Usuario usuario);
     List<Usuario> listaTecnicos(Long empresaId);
     void eliminarTecnicoPorId(Long id);
+    List<Usuario> listaTecnicosDisponibles(Long empresaId);
     
 }

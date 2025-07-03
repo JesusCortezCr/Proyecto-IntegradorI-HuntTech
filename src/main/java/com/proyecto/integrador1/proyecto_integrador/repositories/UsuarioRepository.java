@@ -22,8 +22,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
 
     //metodo para traer la lista de los tecnicos
-    @Query("select t from Usuario t where t.rol.id=2 and t.empresa.id=:empresaId")
+    @Query("select t from Usuario t where t.rol.id=2 and t.empresa.id=:empresaId ")
     List<Usuario> listaTecnicos(@Param("empresaId")Long empresaId );
+
+    //metodo para crear lista de tecnicos disponibles
+    @Query("select t from Usuario t where t.rol.id=2 and t.empresa.id=:empresaId and t.cantidad_tickets<5")
+    List<Usuario> listaTecnicosDisponibles(@Param("empresaId") Long empresaId);
 
     
 }
