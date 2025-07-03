@@ -30,8 +30,6 @@ public class Empresa {
     private String nombreEmpresa;
     @Column(name = "RUC_EMPRESA", nullable = false)
     private String rucEmpresa;
-    @Column(name = "ESTADO_EMPRESA", nullable = false)
-    private boolean estadoEmpresa;
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
 
