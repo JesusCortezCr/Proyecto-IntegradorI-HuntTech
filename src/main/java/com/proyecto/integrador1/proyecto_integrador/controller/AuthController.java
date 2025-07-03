@@ -468,6 +468,7 @@ private PdfGeneratorService pdfGeneratorService;
 
         tecnicoRecibo.setRol(rolTecnico);
         tecnicoRecibo.setEmpresa(usuarioActual.getEmpresa());
+        tecnicoRecibo.setCantidad_tickets(0);
         usuarioService.guardarTecnico(tecnicoRecibo);
         return "redirect:/mantenimiento-tecnicos";
     }

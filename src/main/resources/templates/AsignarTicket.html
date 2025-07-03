@@ -13,7 +13,8 @@
         <h1>Asignar Ticket</h1>
 
         <div class="tickets-container" th:if="${tickets}">
-            <div class="ticket-card" th:each="ticket : ${tickets}" th:if="${ticket.tecnico_id == null or ticket.tecnico_id == 0}">
+            <div class="ticket-card" th:each="ticket : ${tickets}"
+                th:if="${ticket.tecnico_id == null or ticket.tecnico_id == 0}">
                 <div class="ticket-title" th:text="'Numero de solicitud : ' + ${ticket.id}">Ticket #</div>
                 <div class="ticket-empresa" th:text="'Empresa : ' + ${ticket.usuario.empresa.nombreEmpresa}">Empresa
                 </div>
@@ -24,11 +25,21 @@
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Estado:</span>
-                    <span th:text="${ticket.estado.nombre}">En Espera</span>
+                    <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + (
+        ${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' :
+        (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' :
+        (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : ''))
+      )">
+                        Estado
+                    </span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Direccion:</span>
-                    <span th:text="${ticket.direccion}">En Espera</span>
+                    <span th:text="${ticket.prioridad.nombre}" th:class="'ticket-prioridad ' + (
+                      ${ticket.prioridad.nombre} == 'Baja' ? 'prioridad-baja' :
+                      (${ticket.prioridad.nombre} == 'Normal' ? 'prioridad-normal' :
+                      (${ticket.prioridad.nombre} == 'Urgente' ? 'prioridad-urgente' : ''))
+                    )">En Espera</span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Prioridad:</span>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
     th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
@@ -13,7 +12,8 @@
     <th:block th:fragment="content">
         <h1>Tickets Generados</h1>
         <div style="margin-bottom: 20px;">
-            <a class="btn btn-primary" th:href="@{/tickets-administrador(orden='prioridad')} " style="width: 3rem;">Ordenar por Prioridad</a>
+            <a class="btn btn-primary" th:href="@{/tickets-administrador(orden='prioridad')} "
+                style="width: 3rem;">Ordenar por Prioridad</a>
         </div>
 
         <div class="tickets-container" th:if="${tickets}">
@@ -28,7 +28,12 @@
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Estado:</span>
-                    <span th:text="${ticket.estado.nombre}">En Espera</span>
+                    <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + 
+                    (${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' : 
+                    (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : 
+                    (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' : '')))">
+                        En Espera
+                    </span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Direccion:</span>
@@ -36,7 +41,12 @@
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Prioridad:</span>
-                    <span th:text="${ticket.prioridad.nombre}">En Espera</span>
+                    <span th:text="${ticket.prioridad.nombre}" th:class="'ticket-prioridad ' +
+                (${ticket.prioridad.nombre} == 'Baja' ? 'prioridad-baja' :
+                (${ticket.prioridad.nombre} == 'Normal' ? 'prioridad-normal' :
+                (${ticket.prioridad.nombre} == 'Urgente' ? 'prioridad-urgente' : '')))">
+                        Prioridad
+                    </span>
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Descripcion:</span>
@@ -57,31 +67,33 @@
                 <div class="botones">
                     <div th:if="${ticket.estado.nombre}=='En Espera'" class="botones-container">
                         <!-- Selector de prioridad a la izquierda -->
-                        <div class="prioridad-section">
-                            <form th:action="@{/prioridad-ticket/{id}(id=${ticket.id})}" method="get">
-                                <select name="prioridadId" class="form-select"
-                                    th:attr="onchange='mostrarBotonGuardar(' + ${ticket.id} + ')'"
-                                    th:id="'prioridad-' + ${ticket.id}">
-                                    <option value="" selected >Seleccione una prioridad</option>
-                                    <option value="1">Normal</option>
-                                    <option value="2">Alta</option>
-                                    <option value="3">Urgente</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary mt-2" th:id="'btnGuardar-' + ${ticket.id}"
-                                    style="display: none;">Guardar</button>
-                            </form>
-                        </div>
+                         <!--
+                         <div class="prioridad-section">
+                             <form th:action="@{/prioridad-ticket/{id}(id=${ticket.id})}" method="get">
+                                 <select name="prioridadId" class="form-select"
+                                     th:attr="onchange='mostrarBotonGuardar(' + ${ticket.id} + ')'"
+                                     th:id="'prioridad-' + ${ticket.id}">
+                                     <option value="" selected>Seleccione una prioridad</option>
+                                     <option value="1">Normal</option>
+                                     <option value="2">Alta</option>
+                                     <option value="3">Urgente</option>
+                                 </select>
+                                 <button type="submit" class="btn btn-primary mt-2" th:id="'btnGuardar-' + ${ticket.id}"
+                                     style="display: none;">Guardar</button>
+                             </form>
+                         </div>
+                         -->
 
                         <!-- Botones de acción a la derecha -->
                         <div class="acciones-section">
                             <a th:href="@{/rechazar-ticket/{id}(id=${ticket.id})}" class="btn btn-danger"
-                            onclick="return confirmarAccion('¿Estás seguro de que deseas rechazar este ticket?');">Rechazar</a>
+                                onclick="return confirmarAccion('¿Estás seguro de que deseas rechazar este ticket?');">Rechazar</a>
 
                             <a th:href="@{/resolver-ticket/{id}(id=${ticket.id})}" class="btn btn-primary"
-                            onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resuelto</a>
+                                onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resuelto</a>
                         </div>
                     </div>
-                    
+
                     <div th:if="${ticket.estado.nombre}=='Resuelto'">
                         <a th:unless="${informeService.tieneInforme(ticket.id)}"
                             th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">

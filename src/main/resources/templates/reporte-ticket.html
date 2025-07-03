@@ -1,76 +1,147 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>Reporte de Ticket</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .section { margin-bottom: 15px; }
-        .section-title { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; color: #333; }
-        .detail-row { margin-bottom: 5px; }
-        .label { font-weight: bold; display: inline-block; width: 200px; }
-        .footer { margin-top: 30px; text-align: center; font-size: 0.8em; color: #666; }
+        body {
+            font-family: "Arial", sans-serif;
+            margin: 40px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            color: #333333;
+            padding: 20px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3a6259;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 15px auto;
+            max-width: 120px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            color: #3a6259;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 5px 0 0 0;
+            color: #c9a55c;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #3a6259;
+            margin-bottom: 10px;
+            border-left: 5px solid #c9a55c;
+            padding-left: 8px;
+        }
+
+        .detail-row {
+            margin-bottom: 8px;
+            clear: both;
+        }
+
+        .label {
+            display: inline-block;
+            width: 200px;
+            font-weight: bold;
+            color: #c9a55c;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 10px;
+            color: #777;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
+        <img class="logo" th:src="'data:image/png;base64,' + ${logoBase64}" alt="Logo" />
+
         <h1>Reporte de Ticket</h1>
         <h2 th:text="'Número: ' + ${ticket.id}"></h2>
     </div>
-    
+
     <div class="section">
         <div class="section-title">Información General</div>
         <div class="detail-row">
-            <span class="label">Empresa:</span> 
-            <span th:text="${ticket.usuario.empresa.nombreEmpresa}"></span>
+            <span class="label">Empresa:</span>
+            <span th:text="${ticket.usuario.empresa.nombreEmpresa}">Nombre Empresa</span>
         </div>
         <div class="detail-row">
-            <span class="label">Fecha de creación:</span> 
-            <span th:text="${#temporals.format(ticket.fechaHoraSolicitudTicket, 'dd/MM/yyyy HH:mm')}"></span>
+            <span class="label">Fecha de creación:</span>
+            <span th:text="${#temporals.format(ticket.fechaHoraSolicitudTicket, 'dd/MM/yyyy HH:mm')}">01/01/2025</span>
         </div>
         <div class="detail-row">
-            <span class="label">Estado:</span> 
-            <span th:text="${ticket.estado.nombre}"></span>
+            <span class="label">Estado:</span>
+            <span th:text="${ticket.estado.nombre}">En Espera</span>
         </div>
         <div class="detail-row">
-            <span class="label">Prioridad:</span> 
-            <span th:text="${ticket.prioridad.nombre}"></span>
+            <span class="label">Prioridad:</span>
+            <span th:text="${ticket.prioridad.nombre}">Alta</span>
         </div>
     </div>
-    
+
     <div class="section">
         <div class="section-title">Detalles del Cliente</div>
         <div class="detail-row">
-            <span class="label">Nombre:</span> 
-            <span th:text="${ticket.usuario.nombre + ' ' + ticket.usuario.apellido}"></span>
+            <span class="label">Nombre:</span>
+            <span th:text="${ticket.usuario.nombre + ' ' + ticket.usuario.apellido}">Juan Pérez</span>
         </div>
         <div class="detail-row">
-            <span class="label">Dirección:</span> 
-            <span th:text="${ticket.direccion}"></span>
+            <span class="label">Dirección:</span>
+            <span th:text="${ticket.direccion}">Av. Siempre Viva 742</span>
         </div>
     </div>
-    
+
     <div class="section">
         <div class="section-title">Detalles Técnicos</div>
         <div class="detail-row">
-            <span class="label">Dispositivo:</span> 
-            <span th:text="${ticket.dispositivo.nombre}"></span>
+            <span class="label">Dispositivo:</span>
+            <span th:text="${ticket.dispositivo.nombre}">Laptop</span>
         </div>
         <div class="detail-row">
-            <span class="label">Categoría:</span> 
-            <span th:text="${ticket.categoria.nombre}"></span>
+            <span class="label">Categoría:</span>
+            <span th:text="${ticket.categoria.nombre}">Hardware</span>
         </div>
         <div class="detail-row">
-            <span class="label">Descripción:</span> 
-            <span th:text="${ticket.descripcion}"></span>
+            <span class="label">Descripción:</span>
+            <span th:text="${ticket.descripcion}">Pantalla rota</span>
         </div>
     </div>
-    
+
     <div class="footer">
-        <p>Reporte generado el: 
-            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span>
+        <p>Reporte generado el:
+            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}">02/07/2025</span>
         </p>
     </div>
 </body>
+
 </html>

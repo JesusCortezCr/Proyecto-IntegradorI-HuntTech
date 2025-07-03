@@ -43,6 +43,9 @@ public class Usuario {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPRESA_ID")
     private Empresa empresa;
+    
+    @Column(name="cantidad_tickets")
+    private Integer cantidad_tickets;
 
     @OneToMany(mappedBy = "usuario" , cascade =CascadeType.ALL , orphanRemoval = true)
     private List<Ticket> tickets=new ArrayList<>();
