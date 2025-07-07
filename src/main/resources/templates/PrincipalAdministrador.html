@@ -1,38 +1,194 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layouts/base :: layout(~{::title}, ~{::content}, ~{::script})}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Panel de Administrador</title>
 </head>
+
 <body>
     <th:block th:fragment="content">
-        <div class="welcome-section" th:if="${usuario}">
-            <div class="user-profile">
-                <div class="company-logo">
-                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD TECNOLOGICA DEL PERU'}">
-                        <img th:src="@{/IMG/utplogo.png}" alt="Logo UTP" class="img-fluid company-logo-img">
+        <div class="admin-welcome-container">
+            <div class="welcome-section" th:if="${usuario}">
+                <div class="user-profile-card">
+                    <!-- Sección del logo -->
+                    <div class="logo-container">
+                        <div class="logo-wrapper"
+                            th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD TECNOLOGICA DEL PERU'}">
+                            <img th:src="@{/IMG/utplogo.png}" alt="Logo UTP" class="company-logo">
+                        </div>
+                        <div class="logo-wrapper"
+                            th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD PRIVADA DEL NORTE'}">
+                            <img th:src="@{/IMG/upnlogo.png}" alt="Logo UPN" class="company-logo">
+                        </div>
+                        <div class="logo-wrapper"
+                            th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD CESAR VALLEJO'}">
+                            <img th:src="@{/IMG/logoucv.jpg}" alt="Logo UCV" class="company-logo">
+                        </div>
                     </div>
-                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD PRIVADA DEL NORTE'}">
-                        <img th:src="@{/IMG/upnlogo.png}" alt="Logo UPN" class="img-fluid company-logo-img">
-                    </div>
-                    <div th:if="${usuario.empresa.nombreEmpresa == 'UNIVERSIDAD CESAR VALLEJO'}">
-                        <img th:src="@{/IMG/logoucv.jpg}" alt="Logo UCV" class="img-fluid company-logo-img">
-                    </div>
-                </div>
 
-                <div class="user-info">
-                    <h1 class="welcome-title">Bienvenido, <span th:text="${usuario.nombre + ' ' + usuario.apellido}"></span>!</h1>
-                    <div class="user-details">
-                        <p><strong>Nombre completo:</strong> <span
-                                th:text="${usuario.nombre + ' ' + usuario.apellido}"></span></p>
-                        <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
-                        <p><strong>Empresa:</strong> <span th:text="${usuario.empresa.nombreEmpresa}"></span></p>
-                        <p><strong>Rol:</strong> <span th:text="${usuario.rol.nombre}"></span></p>
+                    <!-- Sección de información del usuario -->
+                    <div class="user-info-section">
+                        <h1 class="welcome-heading">
+                            Bienvenido, <span class="user-name"
+                                th:text="${usuario.nombre + ' ' + usuario.apellido}"></span>
+                        </h1>
+
+                        <div class="user-details-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Nombre completo:</span>
+                                <span class="detail-value" th:text="${usuario.nombre + ' ' + usuario.apellido}"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Correo electrónico:</span>
+                                <span class="detail-value" th:text="${usuario.email}"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Empresa:</span>
+                                <span class="detail-value" th:text="${usuario.empresa.nombreEmpresa}"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Rol:</span>
+                                <span class="detail-value role-badge" th:text="${usuario.rol.nombre}"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </th:block>
+
+    <th:block th:fragment="script">
+        <style>
+            /* Estilos base */
+            .admin-welcome-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem 1rem;
+            }
+
+            .user-profile-card {
+                background: #ffffff;
+                border-radius: 12px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+                display: flex;
+                flex-direction: row;
+                min-height: 300px;
+            }
+
+            /* Sección del logo */
+            .logo-container {
+                flex: 0 0 30%;
+                background: #f8f9fa;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+            }
+
+            .logo-wrapper {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .company-logo {
+                max-height: 150px;
+                max-width: 100%;
+                object-fit: contain;
+            }
+
+            /* Sección de información */
+            .user-info-section {
+                flex: 1;
+                padding: 2.5rem;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .welcome-heading {
+                color: #2c3e50;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                font-weight: 600;
+            }
+
+            .user-name {
+                color: #3498db;
+            }
+
+            .user-details-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.2rem;
+                margin-top: 1rem;
+            }
+
+            .detail-item {
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 1rem;
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .detail-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            .detail-label {
+                display: block;
+                font-weight: 500;
+                color: #6c757d;
+                font-size: 0.9rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .detail-value {
+                display: block;
+                color: #495057;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .role-badge {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                background: #3498db;
+                color: white;
+                border-radius: 50px;
+                font-size: 0.85rem;
+                font-weight: 500;
+            }
+
+            /* Responsive design */
+            @media (max-width: 768px) {
+                .user-profile-card {
+                    flex-direction: column;
+                }
+
+                .logo-container {
+                    flex: 0 0 auto;
+                    padding: 1.5rem;
+                }
+
+                .user-info-section {
+                    padding: 1.5rem;
+                }
+
+                .welcome-heading {
+                    font-size: 1.6rem;
+                    text-align: center;
+                }
+
+                .user-details-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </th:block>
 </body>
+
 </html>
