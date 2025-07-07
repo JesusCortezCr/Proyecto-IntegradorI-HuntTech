@@ -5,59 +5,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion Tipo Incidencias</title>
+    <title>Gestión Tipo Incidencias</title>
 </head>
 
 <body>
     <th:block th:fragment="content">
-        <h1>Gestion Tipo Incidencias</h1>
-        <h3>Categoria Solicitud:</h3>
-        <div class="card-body p-4">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre Tipo Categoria</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="categoria : ${categorias}">
-                            <td th:text="${categoria.id}">1</td>
-                            <td th:text="${categoria.nombre}">Juan</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="container-fluid py-4">
+            <!-- Encabezado principal -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold text-primary">Gestión de Tipos de Incidencias</h1>
             </div>
-        </div>
-        <div class="contendor-registrar-dispositivo">
-            <h3>Añadir Dispositivos:</h3>
-            <div class="card-body p-4">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre Dispositivo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="d : ${dispositivos}">
-                                <td th:text="${d.id}">1</td>
-                                <td th:text="${d.nombre}">Juan</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+            <!-- Sección Categorías -->
+            <div class="card shadow-sm mb-5">
+                <div class="card-header bg-primary text-white py-3">
+                    <h3 class="card-title mb-0">Categorías de Solicitud</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="w-25">ID</th>
+                                    <th>Nombre Tipo Categoría</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="categoria : ${categorias}">
+                                    <td th:text="${categoria.id}" class="fw-semibold">1</td>
+                                    <td th:text="${categoria.nombre}">Juan</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <form th:action="@{/guardar-dispositivo}" method="post" th:object="${dispositivo}">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Dispositivo</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1"
-                        placeholder="Ingresa nombre dispositivo" th:field="*{nombre}">
+
+            <!-- Sección Dispositivos -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-success text-white py-3">
+                            <h3 class="card-title mb-0">Dispositivos Registrados</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="w-25">ID</th>
+                                            <th>Nombre Dispositivo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="d : ${dispositivos}">
+                                            <td th:text="${d.id}" class="fw-semibold">1</td>
+                                            <td th:text="${d.nombre}">Juan</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-info text-white py-3">
+                            <h3 class="card-title mb-0">Añadir Nuevo Dispositivo</h3>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/guardar-dispositivo}" method="post" th:object="${dispositivo}">
+                                <div class="mb-3">
+                                    <label for="nombreDispositivo" class="form-label fw-semibold">Nombre del
+                                        Dispositivo</label>
+                                    <input type="text" class="form-control form-control-lg" id="nombreDispositivo"
+                                        placeholder="Ej: Laptop Dell, Impresora HP, etc." th:field="*{nombre}">
+                                    <div class="form-text">Ingrese el nombre completo del dispositivo</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                                    <i class="bi bi-save me-2"></i>Guardar Dispositivo
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </th:block>
 </body>

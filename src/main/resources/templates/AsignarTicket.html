@@ -61,7 +61,7 @@
                     <span class="ticket-label">Dispositivo:</span>
                     <span th:text="${ticket.dispositivo.nombre}">Laptop</span>
                 </div>
-                <form method="post" th:action="@{/asignar-tecnico}">
+                <form method="post" th:action="@{/asignar-tecnico}" class="asignar-form">
                     <input type="hidden" name="ticketId" th:value="${ticket.id}">
                     <div class="mb-3">
                         <label for="tecnico" class="form-label">Tecnico:</label>
@@ -72,12 +72,26 @@
                             </option>
                         </select>
                     </div>
-                    <button type="submit">Asignar al tecnico</button>
+                    <button type="submit" class="btn-asignar">Asignar al tecnico</button>
                 </form>
             </div>
         </div>
         <div th:fragment="script">
             <link href="/css/ticketAdministrador.css" rel="stylesheet" th:href="@{/css/ticketAdministrador.css}">
+            <style>
+                .btn-asignar {
+                    background-color: #007bff;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+
+                .btn-asignar:hover {
+                    background-color: #0056b3;
+                }
+            </style>
         </div>
     </th:block>
 </body>
