@@ -34,5 +34,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             """)
     List<Ticket> obtenerTicketOrdenadosPorPrioridad(@Param("nombreUniversidad") String nombreUniversidad);
 
+    List<Ticket> findByUsuarioAndEstadoNombre(Usuario usuario, String estadoNombre);
     
 }

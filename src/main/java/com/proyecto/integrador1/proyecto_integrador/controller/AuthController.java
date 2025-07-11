@@ -47,9 +47,9 @@ public class AuthController {
 
     @Autowired
     private UsuarioService usuarioService;
-    
-        @Autowired
-private PdfGeneratorService pdfGeneratorService;
+
+    @Autowired
+    private PdfGeneratorService pdfGeneratorService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -209,12 +209,25 @@ private PdfGeneratorService pdfGeneratorService;
     }
 
     @GetMapping("/mis-tickets")
-    public String mostrarMisTickets(Model model, Principal principal) {
+    public String mostrarMisTickets(
+            @RequestParam(required = false) String estado,
+            Model model,
+            Principal principal) {
+
         Usuario usuario = usuarioRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        List<Ticket> tickets = ticketService.obtenerTicketsPorUsuario(usuario);
+
+        List<Ticket> tickets;
+
+        if (estado != null && !estado.isEmpty()) {
+            tickets = ticketService.obtenerTicketsPorUsuarioYEstado(usuario, estado);
+        } else {
+            tickets = ticketService.obtenerTicketsPorUsuario(usuario);
+        }
+
         model.addAttribute("tickets", tickets);
         model.addAttribute("usuario", usuario);
+        model.addAttribute("estadoFiltro", estado); // Para mantener el filtro seleccionado
         return "MisTickets";
     }
 
@@ -227,7 +240,8 @@ private PdfGeneratorService pdfGeneratorService;
         if ("prioridad".equals(orden)) {
             tickets = ticketService.obtenerTicketsOrdenadosPorPrioridad(usuario.getEmpresa().getNombreEmpresa());
         } else {
-            tickets = ticketService.obtenerTicketsPorUniversidadPorTecnico(usuario.getEmpresa().getNombreEmpresa(), usuario.getId());
+            tickets = ticketService.obtenerTicketsPorUniversidadPorTecnico(usuario.getEmpresa().getNombreEmpresa(),
+                    usuario.getId());
         }
         model.addAttribute("tickets", tickets);
         model.addAttribute("usuario", usuario);
@@ -342,7 +356,10 @@ private PdfGeneratorService pdfGeneratorService;
         ticket.setEstado(estadoRechazado);
 
         ticketService.guardarTicket(ticket);
-
+        Usuario tecnico = usuarioRepository.findById(ticket.getTecnico_id())
+                .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
+        tecnico.setCantidad_tickets(tecnico.getCantidad_tickets() - 1);
+        usuarioRepository.save(tecnico);
         return "redirect:/tickets-administrador";
     }
 
@@ -354,7 +371,7 @@ private PdfGeneratorService pdfGeneratorService;
         Estado estadoResuelto = ticketService.obtenerEstadoPorNombre("Resuelto");
         ticket.setEstado(estadoResuelto);
         ticketService.guardarTicket(ticket);
-        //descontar un ticket al tecnico
+        // descontar un ticket al tecnico
         Usuario tecnico = usuarioRepository.findById(ticket.getTecnico_id())
                 .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
         tecnico.setCantidad_tickets(tecnico.getCantidad_tickets() - 1);
@@ -531,7 +548,7 @@ private PdfGeneratorService pdfGeneratorService;
         // Asignar el técnico
         ticket.setTecnico_id(tecnicoId);
 
-        //traer al tecnico y darle una actualizacion de cantidad de tickets
+        // traer al tecnico y darle una actualizacion de cantidad de tickets
         Usuario tecnico = usuarioRepository.findById(tecnicoId)
                 .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
         tecnico.setCantidad_tickets(tecnico.getCantidad_tickets() + 1);
@@ -544,27 +561,50 @@ private PdfGeneratorService pdfGeneratorService;
         return "redirect:/mostrar-lista-asignar-tickets";
     }
 
+    @GetMapping("/generar-pdf/{ticketId}")
+    public ResponseEntity<byte[]> generarPdfTicket(@PathVariable Long ticketId) {
+        try {
+            Ticket ticket = ticketService.obtenerTicketPorId(ticketId)
+                    .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
 
+            byte[] pdfBytes = pdfGeneratorService.generatePdfFromTicket(ticket);
 
-@GetMapping("/generar-pdf/{ticketId}")
-public ResponseEntity<byte[]> generarPdfTicket(@PathVariable Long ticketId) {
-    try {
-        Ticket ticket = ticketService.obtenerTicketPorId(ticketId)
-                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
-        
-        byte[] pdfBytes = pdfGeneratorService.generatePdfFromTicket(ticket);
-        
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "reporte-ticket-" + ticketId + ".pdf");
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(pdfBytes);
-    } catch (IOException e) {
-        throw new RuntimeException("Error al generar el PDF", e);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "reporte-ticket-" + ticketId + ".pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+        } catch (IOException e) {
+            throw new RuntimeException("Error al generar el PDF", e);
+        }
     }
-}
+
+    @GetMapping("/analizar-ticket/{id}")
+    public String analizarTicket(@PathVariable Long id) {
+        Ticket ticket = ticketService.obtenerTicketPorId(id)
+                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+
+        // Asegúrate que este nombre coincida exactamente
+        Estado estadoAnalisis = ticketService.obtenerEstadoPorNombre("En Análisis");
+        ticket.setEstado(estadoAnalisis);
+        ticketService.guardarTicket(ticket);
+
+        return "redirect:/tickets-administrador";
+    }
+
+    /**
+     * @GetMapping("/mis-tickets")
+     * public String mostrarMisTickets(Model model, Principal principal) {
+     * Usuario usuario = usuarioRepository.findByEmail(principal.getName())
+     * .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+     * List<Ticket> tickets = ticketService.obtenerTicketsPorUsuario(usuario);
+     * model.addAttribute("tickets", tickets);
+     * model.addAttribute("usuario", usuario);
+     * return "MisTickets";
+     * }
+     **/
 
 }

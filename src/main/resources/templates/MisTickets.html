@@ -12,6 +12,29 @@
 <body>
     <div th:fragment="content">
         <h1>Mis Tickets</h1>
+        <div class="filtros-container">
+            <a th:href="@{/mis-tickets(estado='Resuelto')}" class="btn-filtro"
+                th:classappend="${estadoFiltro == 'Resuelto'} ? 'active' : ''">
+                Ver Resueltos
+            </a>
+            <a th:href="@{/mis-tickets(estado='En Espera')}" class="btn-filtro"
+                th:classappend="${estadoFiltro == 'En Espera'} ? 'active' : ''">
+                Ver En Espera
+            </a>
+            <a th:href="@{/mis-tickets(estado='Rechazado')}" class="btn-filtro"
+                th:classappend="${estadoFiltro == 'Rechazado'} ? 'active' : ''">
+                Ver Rechazados
+            </a>
+            <a th:href="@{/mis-tickets(estado='En Analisis')}" class="btn-filtro"
+                th:classappend="${estadoFiltro == 'En Analisis'} ? 'active' : ''">
+                Ver En Analisis
+            </a>
+            <a th:href="@{/mis-tickets}" class="btn-filtro" th:classappend="${estadoFiltro == null} ? 'active' : ''">
+                Ver Todos
+            </a>
+        </div>
+
+
         <div class="tickets-container" th:if="${tickets}">
             <div class="ticket-card" th:each="ticket : ${tickets}">
                 <div class="ticket-title" th:text="'Numero de solicitud : ' + ${ticket.id}">Ticket #</div>
@@ -24,16 +47,13 @@
                 </div>
                 <div class="ticket-detail">
                     <span class="ticket-label">Estado:</span>
-
-                    <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + (
-        ${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' :
+                    <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + 
+        (${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' : 
+        (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : 
         (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' :
-        (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : ''))
-      )">
-                        Estado
+        (${ticket.estado.nombre} == 'En Análisis' ? 'estado-analisis' : ''))))">
+                        En Espera
                     </span>
-
-
                 </div>
 
 
@@ -76,7 +96,7 @@
                     </div>
 
                 </div>
-                <div th:if="${ticket.estado.nombre=='Resuelto'}">
+                <div th:if="${ticket.estado.nombre=='Resuelto' or ticket.estado.nombre=='En Analisis' }">
                     <div class="botones">
                         <a th:href="@{/generar-pdf/{id}(id=${ticket.id})}" class="btn btn-primary">Generar PDF</a>
                     </div>

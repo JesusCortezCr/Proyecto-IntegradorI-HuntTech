@@ -35,4 +35,6 @@ public interface TicketService {
     List<Ticket> obtenerTodosTicketsPorUniversidad(@Param("nombreUniversidad") String nombreUniversidad);
     List<Ticket> obtenerTicketsOrdenadosPorPrioridad(String universidad);
     List<Ticket> obtenerTicketsPorUniversidadPorTecnico(String nombreUniversidad,Long tecnicoId);
+
+    List<Ticket> obtenerTicketsPorUsuarioYEstado(Usuario usuario, String estado);
 }

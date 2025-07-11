@@ -248,8 +248,49 @@ h1::after {
   font-weight: bold;
 }
 .ticket-estado {
+    font-size: 1.1rem; /* Tamaño más grande */
   font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 5px;
+  padding: 8px 12px; /* Más relleno */
+  border-radius: 6px;
   display: inline-block;
+  margin-left: 8px;
+  text-transform: uppercase; /* Texto en mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil */
+  transition: all 0.3s ease; /* Transición suave */
+}
+.ticket-estado:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+
+/* Estilos para los filtros */
+.filtros-container {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-filtro {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.btn-filtro:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-filtro.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
