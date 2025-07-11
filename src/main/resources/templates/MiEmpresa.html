@@ -27,7 +27,6 @@
             <div class="empresa-info">
                 <h2>Informacion de la empresa: <b th:text="${usuario.empresa.nombreEmpresa}"></b></h2>
                 <h3>RUC: <b th:text="${usuario.empresa.rucEmpresa}"></b></h3>
-                <h3>Estado Empresa : <b th:if="${usuario.empresa.estadoEmpresa == true}">ACTIVO</b></h3>
                 <form th:action="@{/mi-empresa}" method="post">
                     <h3>Código Empresa :</h3>
                     <!--//el name manda al controlador el valor-->

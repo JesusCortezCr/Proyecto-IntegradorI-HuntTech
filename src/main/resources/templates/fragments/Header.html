@@ -169,7 +169,7 @@
                 <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_TECNICO'}">
                     <a class="nav-link" th:href="@{/tickets-administrador}">Tickets Generados</a>
                 </li>
-                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_TECNICO'}">
+                <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_TECNICO' or usuario.rol.nombre == 'ROLE_ADMINISTRADOR' }">
                     <a class="nav-link" th:href="@{/mostrar-historial-informes}">Historial informes</a>
                 </li>
                 <li class="nav-item" th:if="${usuario.rol.nombre == 'ROLE_TECNICO'}">

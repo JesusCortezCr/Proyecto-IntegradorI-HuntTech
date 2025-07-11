@@ -29,9 +29,10 @@
                 <div class="ticket-detail">
                     <span class="ticket-label">Estado:</span>
                     <span th:text="${ticket.estado.nombre}" th:class="'ticket-estado ' + 
-                    (${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' : 
-                    (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : 
-                    (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' : '')))">
+        (${ticket.estado.nombre} == 'En Espera' ? 'estado-espera' : 
+        (${ticket.estado.nombre} == 'Resuelto' ? 'estado-resuelto' : 
+        (${ticket.estado.nombre} == 'Rechazado' ? 'estado-rechazada' :
+        (${ticket.estado.nombre} == 'En Analisis' ? 'estado-analisis' : ''))))">
                         En Espera
                     </span>
                 </div>
@@ -65,36 +66,29 @@
                     <span th:text="${ticket.dispositivo.nombre}">Laptop</span>
                 </div>
                 <div class="botones">
+                    <!-- Para tickets en espera -->
                     <div th:if="${ticket.estado.nombre}=='En Espera'" class="botones-container">
-                        <!-- Selector de prioridad a la izquierda -->
-                         <!--
-                         <div class="prioridad-section">
-                             <form th:action="@{/prioridad-ticket/{id}(id=${ticket.id})}" method="get">
-                                 <select name="prioridadId" class="form-select"
-                                     th:attr="onchange='mostrarBotonGuardar(' + ${ticket.id} + ')'"
-                                     th:id="'prioridad-' + ${ticket.id}">
-                                     <option value="" selected>Seleccione una prioridad</option>
-                                     <option value="1">Normal</option>
-                                     <option value="2">Alta</option>
-                                     <option value="3">Urgente</option>
-                                 </select>
-                                 <button type="submit" class="btn btn-primary mt-2" th:id="'btnGuardar-' + ${ticket.id}"
-                                     style="display: none;">Guardar</button>
-                             </form>
-                         </div>
-                         -->
-
-                        <!-- Botones de acción a la derecha -->
                         <div class="acciones-section">
                             <a th:href="@{/rechazar-ticket/{id}(id=${ticket.id})}" class="btn btn-danger"
                                 onclick="return confirmarAccion('¿Estás seguro de que deseas rechazar este ticket?');">Rechazar</a>
-
                             <a th:href="@{/resolver-ticket/{id}(id=${ticket.id})}" class="btn btn-primary"
-                                onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resuelto</a>
+                                onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resolver</a>
+                            <a th:href="@{/analizar-ticket/{id}(id=${ticket.id})}" class="btn btn-warning"
+                                onclick="return confirmarAccion('¿Marcar este ticket como En Análisis?');">En
+                                Análisis</a>
                         </div>
                     </div>
 
-                    <div th:if="${ticket.estado.nombre}=='Resuelto'">
+                    <!-- Para tickets en análisis -->
+                    <div th:if="${ticket.estado.nombre}=='En Analisis'" class="botones-container">
+                        <div class="acciones-section">
+                            <a th:href="@{/resolver-ticket/{id}(id=${ticket.id})}" class="btn btn-primary"
+                                onclick="return confirmarAccion('¿Marcar este ticket como resuelto?');">Resolver</a>
+                        </div>
+                    </div>
+
+                    <!-- Para tickets resueltos o en análisis (botón de informe) -->
+                    <div th:if="${ticket.estado.nombre=='Resuelto' or ticket.estado.nombre=='En Analisis'}">
                         <a th:unless="${informeService.tieneInforme(ticket.id)}"
                             th:href="@{/generar-informe/{id}(id=${ticket.id})}" class="btn btn-primary">
                             Generar solución de incidencias

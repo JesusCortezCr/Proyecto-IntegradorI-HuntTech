@@ -120,4 +120,9 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.obtenerTicketsPorUniversidadPorTecnico(nombreUniversidad, tecnicoId);
     }
 
+    @Override
+    public List<Ticket> obtenerTicketsPorUsuarioYEstado(Usuario usuario, String estado) {
+        return ticketRepository.findByUsuarioAndEstadoNombre(usuario, estado);
+    }
+
 }
