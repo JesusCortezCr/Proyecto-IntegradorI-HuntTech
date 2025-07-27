@@ -1,21 +1,20 @@
-# 🚀 Nombre del Proyecto
+# 🛠️ Sistema de Ticketing para Soporte Técnico
 
-> Aplicación fullstack moderna construida con React, Spring Boot y PostgreSQL. Diseñada para gestionar [explica la funcionalidad general: usuarios, productos, tareas, etc.] de forma rápida, segura y escalable.
+> Aplicación fullstack moderna construida con Spring Boot, Thymeleaf y MySQL. Diseñada para gestionar tickets de soporte técnico en instituciones educativas privadas de forma rápida, segura y escalable.
 
-![Banner o portada del proyecto](./screenshots/cover.png)
+![Portada del Proyecto](./screenshots/cover.png)
 
 ---
 
 ## 📚 Tabla de Contenidos
 
-- [📸 Demo / Capturas](#-demo--capturas)
+- [📸 Capturas / Demo](#-capturas--demo)
 - [🧠 Descripción del Proyecto](#-descripción-del-proyecto)
 - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [🧩 Arquitectura del Software](#-arquitectura-del-software)
 - [🔑 Funcionalidades Principales](#-funcionalidades-principales)
 - [⚙️ Requisitos del Sistema](#️-requisitos-del-sistema)
 - [🚀 Instalación Local](#-instalación-local)
-- [🧪 Pruebas](#-pruebas)
 - [📦 Estructura de Carpetas](#-estructura-de-carpetas)
 - [📈 Futuras Mejoras](#-futuras-mejoras)
 - [💡 Lo que Aprendí](#-lo-que-aprendí)
@@ -24,55 +23,103 @@
 
 ---
 
-## 📸 Demo / Capturas
+## 📸 Capturas / Demo
 
-<!-- Puedes poner una demo deployada si tienes -->
-🔗 [Ver Demo en Línea](https://tudemo.com)
+🔗 **Demo en construcción**  
+_(Agrega aquí el link si lo subes a algún hosting como Railway o Render)_
 
-| Pantalla Principal | Gestión de [función] | Autenticación |
-|--------------------|----------------------|---------------|
-| ![](./screenshots/home.png) | ![](./screenshots/admin.png) | ![](./screenshots/login.png) |
+| Login Cliente | Registro Ticket | Panel Administrador |
+|---------------|-----------------|----------------------|
+| ![](./screenshots/login-cliente.png) | ![](./screenshots/crear-ticket.png) | ![](./screenshots/admin-panel.png) |
 
 ---
 
 ## 🧠 Descripción del Proyecto
 
-Este proyecto tiene como objetivo resolver [problema real o necesidad]. Permite a los usuarios:
+Este sistema permite a **instituciones educativas privadas** registrar y resolver solicitudes técnicas a través de un sistema de tickets. Cada usuario tiene un rol definido y permisos exclusivos:
 
-- Registrar y gestionar [entidades]
-- Visualizar reportes dinámicos
-- Proteger rutas según rol
-- Conectarse a una base de datos PostgreSQL y realizar operaciones CRUD seguras
+- 📩 Clientes: pueden registrar sus problemas técnicos.
+- 🛠️ Técnicos: reciben tickets y los solucionan o clasifican.
+- 🧑‍💼 Administradores: gestionan el sistema, asignan tareas y supervisan.
 
-Pensado para ser **modular, mantenible y escalable**.
+Está pensado para ser modular, seguro y escalable.
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-### Frontend
-
-- ⚛️ React + Vite
-- 🧠 TypeScript
-- 💨 Tailwind CSS
-- 🔄 Axios
-- 📦 Zustand o Context API
-
-### Backend
-
-- ☕ Spring Boot
-- 🔐 Spring Security (JWT)
-- 🗃️ JPA + Hibernate
-- 🐘 PostgreSQL
-- 🧪 JUnit
-
-### Otros
-
-- 📁 Swagger para documentación de API
-- 🔒 Validaciones backend
-- 🌍 CORS configurado para frontend
+- ☕ **Spring Boot** (MVC, Security, JPA)
+- 🌐 **Thymeleaf** (Frontend HTML dinámico)
+- 🐬 **MySQL** (Gestión de base de datos)
+- 🎨 **Bootstrap** (Diseño responsivo)
+- 🧱 HTML, CSS, JS
 
 ---
 
 ## 🧩 Arquitectura del Software
 
+
+La comunicación entre capas se realiza bajo el patrón **MVC (Modelo-Vista-Controlador)**, asegurando la separación de responsabilidades.
+
+---
+
+## 🔑 Funcionalidades Principales
+
+### 👤 ROLE_CLIENTE
+
+- [x] Crear cuenta y loguearse
+- [x] Registrar tickets
+- [x] Ver y ordenar sus tickets
+
+### 🛠️ ROLE_TECNICO
+
+- [x] Recibir tickets asignados
+- [x] Marcar ticket como:
+  - ✅ Solucionado
+  - ❌ Rechazado
+  - 🕒 En análisis
+- [x] Generar informe técnico
+- [x] Cambiar código de seguridad
+- [x] Ordenar tickets
+
+### 🧑‍💼 ROLE_ADMINISTRADOR
+
+- [x] Ver historial de tickets resueltos
+- [x] Asignar tickets a técnicos
+- [x] CRUD completo de técnicos
+- [x] Añadir nuevos dispositivos
+- [x] Ver categorías de dispositivos
+- [x] Ingreso exclusivo mediante login
+
+---
+
+## ⚙️ Requisitos del Sistema
+
+- ☕ Java 17 o superior
+- 🐬 MySQL (local o XAMPP)
+- 📦 Spring Boot con dependencias necesarias
+- 🌐 Navegador moderno actualizado
+
+---
+
+## 🚀 Instalación Local
+
+### Paso 1: Clonar el repositorio
+
+```bash
+git clone https://github.com/jesuseduardocortezramos/sistema-ticketing.git
+cd sistema-ticketing
+💡 Lo que Aprendí
+Este proyecto me permitió conocer el ciclo completo de desarrollo de software:
+
+✅ Análisis de requerimientos funcionales y técnicos
+
+🧠 Diseño de base de datos relacional
+
+🔐 Seguridad con roles y control de accesos
+
+🛠️ Implementación MVC con Spring Boot
+
+🧑‍🎨 Interfaz de usuario con Thymeleaf + Bootstrap
+
+Es una experiencia completa que me dio una visión real del desarrollo de software profesional.
