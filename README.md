@@ -88,8 +88,7 @@ La comunicación entre capas se realiza bajo el patrón **MVC (Modelo-Vista-Cont
 ### Paso 1: Clonar el repositorio
 
 ```bash
-git clone https://github.com/jesuseduardocortezramos/sistema-ticketing.git
-cd sistema-ticketing
+git clone [https://github.com/JesusCortezCr/Proyecto-IntegradorI-HuntTech]
 💡 Lo que Aprendí
 Este proyecto me permitió conocer el ciclo completo de desarrollo de software:
 
