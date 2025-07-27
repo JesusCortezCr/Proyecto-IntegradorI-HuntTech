@@ -12,11 +12,6 @@
 - [🔑 Funcionalidades Principales](#-funcionalidades-principales)
 - [⚙️ Requisitos del Sistema](#️-requisitos-del-sistema)
 - [🚀 Instalación Local](#-instalación-local)
-- [📦 Estructura de Carpetas](#-estructura-de-carpetas)
-- [📈 Futuras Mejoras](#-futuras-mejoras)
-- [💡 Lo que Aprendí](#-lo-que-aprendí)
-- [📬 Contacto](#-contacto)
-- [📄 Licencia](#-licencia)
 
 ---
 
