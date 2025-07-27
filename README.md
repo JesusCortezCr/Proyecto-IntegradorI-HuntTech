@@ -2,13 +2,10 @@
 
 > Aplicación fullstack moderna construida con Spring Boot, Thymeleaf y MySQL. Diseñada para gestionar tickets de soporte técnico en instituciones educativas privadas de forma rápida, segura y escalable.
 
-![Portada del Proyecto](./screenshots/cover.png)
-
 ---
 
 ## 📚 Tabla de Contenidos
 
-- [📸 Capturas / Demo](#-capturas--demo)
 - [🧠 Descripción del Proyecto](#-descripción-del-proyecto)
 - [🛠️ Tecnologías Utilizadas](#️-tecnologías-utilizadas)
 - [🧩 Arquitectura del Software](#-arquitectura-del-software)
@@ -20,17 +17,6 @@
 - [💡 Lo que Aprendí](#-lo-que-aprendí)
 - [📬 Contacto](#-contacto)
 - [📄 Licencia](#-licencia)
-
----
-
-## 📸 Capturas / Demo
-
-🔗 **Demo en construcción**  
-_(Agrega aquí el link si lo subes a algún hosting como Railway o Render)_
-
-| Login Cliente | Registro Ticket | Panel Administrador |
-|---------------|-----------------|----------------------|
-| ![](./screenshots/login-cliente.png) | ![](./screenshots/crear-ticket.png) | ![](./screenshots/admin-panel.png) |
 
 ---
 
