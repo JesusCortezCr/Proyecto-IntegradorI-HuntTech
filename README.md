@@ -1,6 +1,7 @@
 # 🛠️ Sistema de Ticketing para Soporte Técnico
 
 > Aplicación fullstack moderna construida con Spring Boot, Thymeleaf y MySQL. Diseñada para gestionar tickets de soporte técnico en instituciones educativas privadas de forma rápida, segura y escalable.
+> Ver video demo del software <a href="https://www.youtube.com/watch?v=6yyRfdJnmMk&t=7s">Ver video demo</a>
 
 ---
 
